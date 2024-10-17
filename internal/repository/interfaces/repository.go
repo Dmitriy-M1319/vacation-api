@@ -1,4 +1,4 @@
-package repository
+package interfaces
 
 import "github.com/Dmitriy-M1319/vacation-api/internal/models"
 
