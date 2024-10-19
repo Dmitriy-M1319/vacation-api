@@ -15,8 +15,21 @@ type SqlEmployeeRepository struct {
 func NewPgEmployeeRepository(c *sqlx.DB) (*SqlEmployeeRepository, error) {
 	rep := SqlEmployeeRepository{connection: c}
 
+	//seed
+	query := `CREATE TABLE IF NOT EXISTS employees(
+	id serial primary key,
+	first_name varchar(255),
+	last_name varchar(255),
+	patronymic varchar(255),
+	)`
+
+	_, err := c.Exec(query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to init employee repository: %s", err.Error())
+	}
+
 	var maxId int
-	err := c.Get(&maxId, "SELECT MAX(id) AS maxId FROM employees")
+	err = c.Get(&maxId, "SELECT MAX(id) AS maxId FROM employees")
 	if err != nil {
 		return nil, fmt.Errorf("failed to init employee repository: %s", err.Error())
 	}
@@ -43,14 +56,42 @@ func (repo SqlEmployeeRepository) GetById(id uint64) (models.Employee, error) {
 	return result, nil
 }
 
-func (repo *SqlEmployeeRepository) Insert(e *models.Employee) {
+func (repo *SqlEmployeeRepository) Insert(e *models.Employee) error {
+	var newId uint64
+	err := repo.connection.Get(&newId,
+		"INSERT INTO employees(first_name, last_name, patronymic) VALUES($1, $2, $3)",
+		e.FirstName, e.LastName, e.Patronymic)
+	if err != nil {
+		return fmt.Errorf("failed to insert new employee")
+	}
 
+	e.ID = newId
+	return nil
 }
 
 func (repo SqlEmployeeRepository) Update(id uint64, e *models.Employee) error {
+	_, err := repo.GetById(id)
+	if err != nil {
+		return err
+	}
 
+	_, err = repo.connection.Exec("UPDATE employees SET first_name=$1, last_name=$2, patronymic=$3 WHERE id=$4",
+		e.FirstName, e.LastName, e.Patronymic, id)
+	if err != nil {
+		return fmt.Errorf("failed to update employee with id = %d", id)
+	}
+	return nil
 }
 
 func (repo SqlEmployeeRepository) Delete(id uint64) error {
-
+	_, err := repo.GetById(id)
+	if err != nil {
+		return err
+	}
+	_, err = repo.connection.Exec("DELETE FROM employees WHERE id=$1",
+		id)
+	if err != nil {
+		return fmt.Errorf("failed to delete employee with id = %d", id)
+	}
+	return nil
 }
