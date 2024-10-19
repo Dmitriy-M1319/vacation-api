@@ -14,15 +14,15 @@ type VacationRepository interface {
 	GetAll() ([]models.Vacation, error)
 	GetById(id uint64) (models.Vacation, error)
 	GetByEmployeeId(id uint64) ([]models.Vacation, error)
-	Insert(e *models.Vacation) error
-	Update(id uint64, e *models.Vacation) error
+	Insert(v *models.Vacation) error
+	Update(id uint64, v *models.Vacation) error
 	Delete(id uint64) error
 }
 
 type VacationNormRepository interface {
-	GetAll() ([]models.Vacation, error)
-	GetById(id uint64) (models.Vacation, error)
-	Insert(e *models.Vacation) error
-	Update(id uint64, e *models.Vacation) error
+	GetAll() ([]models.VacationNorm, error)
+	GetById(id uint64) (models.VacationNorm, error)
+	Insert(n *models.VacationNorm) error
+	Update(id uint64, n *models.VacationNorm) error
 	Delete(id uint64) error
 }

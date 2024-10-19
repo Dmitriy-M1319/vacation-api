@@ -20,7 +20,7 @@ func NewPgEmployeeRepository(c *sqlx.DB) (*SqlEmployeeRepository, error) {
 	id serial primary key,
 	first_name varchar(255),
 	last_name varchar(255),
-	patronymic varchar(255),
+	patronymic varchar(255)
 	)`
 
 	_, err := c.Exec(query)
@@ -29,7 +29,7 @@ func NewPgEmployeeRepository(c *sqlx.DB) (*SqlEmployeeRepository, error) {
 	}
 
 	var maxId int
-	err = c.Get(&maxId, "SELECT MAX(id) AS maxId FROM employees")
+	err = c.Get(&maxId, "SELECT (CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END) AS maxId FROM employees")
 	if err != nil {
 		return nil, fmt.Errorf("failed to init employee repository: %s", err.Error())
 	}
@@ -59,7 +59,7 @@ func (repo SqlEmployeeRepository) GetById(id uint64) (models.Employee, error) {
 func (repo *SqlEmployeeRepository) Insert(e *models.Employee) error {
 	var newId uint64
 	err := repo.connection.Get(&newId,
-		"INSERT INTO employees(first_name, last_name, patronymic) VALUES($1, $2, $3)",
+		"INSERT INTO employees(first_name, last_name, patronymic) VALUES($1, $2, $3) RETURNING id",
 		e.FirstName, e.LastName, e.Patronymic)
 	if err != nil {
 		return fmt.Errorf("failed to insert new employee")

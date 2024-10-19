@@ -10,7 +10,7 @@ import (
 var currentDb string
 
 func NewConnection(ip, user, password, database string) (*sqlx.DB, error) {
-	connString := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", user, password, ip, database)
+	connString := fmt.Sprintf("postgres://%s:%s@%s:5432/%s", user, password, ip, database)
 	conn, err := sqlx.Connect("pgx", connString)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database %s: %s", database, err.Error())
