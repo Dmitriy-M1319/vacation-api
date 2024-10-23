@@ -15,7 +15,6 @@ import (
 )
 
 var employeeRepo interfaces.EmployeeRepository
-var rpcService rpc.RpcService
 
 // var vacationRepo interfaces.VacationRepository
 // var vacationNormRepo interfaces.VacationNormRepository
@@ -52,7 +51,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	service := &rpc.RpcService{EmpRepo: employeeRepo}
+	service := rpc.NewRpcService(employeeRepo)
 
 	pb.RegisterVacationsServiceServer(grpcServer, service)
 	err = grpcServer.Serve(lis)
