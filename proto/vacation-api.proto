@@ -1,5 +1,7 @@
 syntax="proto3";
 
+option go_package = "github.com/Dmitriy-M1319/vacation-api/proto";
+
 // Сервисы для моделей данных
 service VacationsService {
 
@@ -49,7 +51,6 @@ message Employee {
     string firstName = 2;
     string lastName = 3;
     string patronymic = 4;
-    repeated Vacation vacations = 5;
 }
 
 message EmptyResponse {}
