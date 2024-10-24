@@ -56,7 +56,7 @@ func (sr *RpcService) GetEmployeeById(ctx context.Context, req *pb.EmployeeId) (
 	return &pb.EmployeeResponse{Emp: res}, nil
 }
 
-func (sr *RpcService) InsertEmployee(ctx context.Context, res *pb.Employee) (*pb.EmptyResponse, error) {
+func (sr *RpcService) InsertEmployee(ctx context.Context, res *pb.Employee) (*pb.EmployeeResponse, error) {
 	val := &models.Employee{
 		FirstName:  res.FirstName,
 		LastName:   res.LastName,
@@ -69,7 +69,12 @@ func (sr *RpcService) InsertEmployee(ctx context.Context, res *pb.Employee) (*pb
 	}
 
 	//TODO: Пофиксить респонс для процедуры
-	return &pb.EmptyResponse{}, nil
+	return &pb.EmployeeResponse{Emp: &pb.Employee{
+		Id:         int32(val.ID),
+		FirstName:  val.FirstName,
+		LastName:   val.LastName,
+		Patronymic: val.Patronymic,
+	}}, nil
 }
 
 func (sr *RpcService) UpdateEmployee(ctx context.Context, req *pb.UpdateEmpRequest) (*pb.EmployeeResponse, error) {

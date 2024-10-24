@@ -12,7 +12,7 @@ service VacationsService {
     rpc GetEmployeeById(EmployeeId) returns (EmployeeResponse);
 
     // Добавить нового сотрудника в базу данных
-    rpc InsertEmployee(Employee) returns (EmptyResponse);
+    rpc InsertEmployee(Employee) returns (EmployeeResponse);
 
     // Обновить данные для сотрудника
     rpc UpdateEmployee(UpdateEmpRequest) returns (EmployeeResponse);
