@@ -29,6 +29,11 @@ const (
 	VacationsService_InsertVacation_FullMethodName         = "/VacationsService/InsertVacation"
 	VacationsService_UpdateVacation_FullMethodName         = "/VacationsService/UpdateVacation"
 	VacationsService_DeleteVacation_FullMethodName         = "/VacationsService/DeleteVacation"
+	VacationsService_GetAllVacationNorm_FullMethodName     = "/VacationsService/GetAllVacationNorm"
+	VacationsService_GetVacationNormById_FullMethodName    = "/VacationsService/GetVacationNormById"
+	VacationsService_InsertVacationNorm_FullMethodName     = "/VacationsService/InsertVacationNorm"
+	VacationsService_UpdateVacationNorm_FullMethodName     = "/VacationsService/UpdateVacationNorm"
+	VacationsService_DeleteVacationNorm_FullMethodName     = "/VacationsService/DeleteVacationNorm"
 )
 
 // VacationsServiceClient is the client API for VacationsService service.
@@ -57,6 +62,16 @@ type VacationsServiceClient interface {
 	UpdateVacation(ctx context.Context, in *UpdateVacRequest, opts ...grpc.CallOption) (*VacationResponse, error)
 	// Удалить отпуск сотрудника из базы данных
 	DeleteVacation(ctx context.Context, in *VacationId, opts ...grpc.CallOption) (*EmptyResponse, error)
+	// Получить все нормы отпуска
+	GetAllVacationNorm(ctx context.Context, in *EmptyResponse, opts ...grpc.CallOption) (*ManyVacationNormsResponse, error)
+	// Получить норму по его уникальному идентификатору
+	GetVacationNormById(ctx context.Context, in *VacationNormId, opts ...grpc.CallOption) (*VacationNormResponse, error)
+	// Добавить новый норму отпуска в базу данных
+	InsertVacationNorm(ctx context.Context, in *VacationNorm, opts ...grpc.CallOption) (*VacationNormResponse, error)
+	// Обновить данные для нормы отпуска
+	UpdateVacationNorm(ctx context.Context, in *UpdateVacNormRequest, opts ...grpc.CallOption) (*VacationNormResponse, error)
+	// Удалить норму отпуск из базы данных
+	DeleteVacationNorm(ctx context.Context, in *VacationNormId, opts ...grpc.CallOption) (*EmptyResponse, error)
 }
 
 type vacationsServiceClient struct {
@@ -167,6 +182,56 @@ func (c *vacationsServiceClient) DeleteVacation(ctx context.Context, in *Vacatio
 	return out, nil
 }
 
+func (c *vacationsServiceClient) GetAllVacationNorm(ctx context.Context, in *EmptyResponse, opts ...grpc.CallOption) (*ManyVacationNormsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ManyVacationNormsResponse)
+	err := c.cc.Invoke(ctx, VacationsService_GetAllVacationNorm_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vacationsServiceClient) GetVacationNormById(ctx context.Context, in *VacationNormId, opts ...grpc.CallOption) (*VacationNormResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VacationNormResponse)
+	err := c.cc.Invoke(ctx, VacationsService_GetVacationNormById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vacationsServiceClient) InsertVacationNorm(ctx context.Context, in *VacationNorm, opts ...grpc.CallOption) (*VacationNormResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VacationNormResponse)
+	err := c.cc.Invoke(ctx, VacationsService_InsertVacationNorm_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vacationsServiceClient) UpdateVacationNorm(ctx context.Context, in *UpdateVacNormRequest, opts ...grpc.CallOption) (*VacationNormResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VacationNormResponse)
+	err := c.cc.Invoke(ctx, VacationsService_UpdateVacationNorm_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vacationsServiceClient) DeleteVacationNorm(ctx context.Context, in *VacationNormId, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EmptyResponse)
+	err := c.cc.Invoke(ctx, VacationsService_DeleteVacationNorm_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VacationsServiceServer is the server API for VacationsService service.
 // All implementations must embed UnimplementedVacationsServiceServer
 // for forward compatibility.
@@ -193,6 +258,16 @@ type VacationsServiceServer interface {
 	UpdateVacation(context.Context, *UpdateVacRequest) (*VacationResponse, error)
 	// Удалить отпуск сотрудника из базы данных
 	DeleteVacation(context.Context, *VacationId) (*EmptyResponse, error)
+	// Получить все нормы отпуска
+	GetAllVacationNorm(context.Context, *EmptyResponse) (*ManyVacationNormsResponse, error)
+	// Получить норму по его уникальному идентификатору
+	GetVacationNormById(context.Context, *VacationNormId) (*VacationNormResponse, error)
+	// Добавить новый норму отпуска в базу данных
+	InsertVacationNorm(context.Context, *VacationNorm) (*VacationNormResponse, error)
+	// Обновить данные для нормы отпуска
+	UpdateVacationNorm(context.Context, *UpdateVacNormRequest) (*VacationNormResponse, error)
+	// Удалить норму отпуск из базы данных
+	DeleteVacationNorm(context.Context, *VacationNormId) (*EmptyResponse, error)
 	mustEmbedUnimplementedVacationsServiceServer()
 }
 
@@ -232,6 +307,21 @@ func (UnimplementedVacationsServiceServer) UpdateVacation(context.Context, *Upda
 }
 func (UnimplementedVacationsServiceServer) DeleteVacation(context.Context, *VacationId) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteVacation not implemented")
+}
+func (UnimplementedVacationsServiceServer) GetAllVacationNorm(context.Context, *EmptyResponse) (*ManyVacationNormsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllVacationNorm not implemented")
+}
+func (UnimplementedVacationsServiceServer) GetVacationNormById(context.Context, *VacationNormId) (*VacationNormResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetVacationNormById not implemented")
+}
+func (UnimplementedVacationsServiceServer) InsertVacationNorm(context.Context, *VacationNorm) (*VacationNormResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InsertVacationNorm not implemented")
+}
+func (UnimplementedVacationsServiceServer) UpdateVacationNorm(context.Context, *UpdateVacNormRequest) (*VacationNormResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateVacationNorm not implemented")
+}
+func (UnimplementedVacationsServiceServer) DeleteVacationNorm(context.Context, *VacationNormId) (*EmptyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteVacationNorm not implemented")
 }
 func (UnimplementedVacationsServiceServer) mustEmbedUnimplementedVacationsServiceServer() {}
 func (UnimplementedVacationsServiceServer) testEmbeddedByValue()                          {}
@@ -434,6 +524,96 @@ func _VacationsService_DeleteVacation_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VacationsService_GetAllVacationNorm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyResponse)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).GetAllVacationNorm(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_GetAllVacationNorm_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).GetAllVacationNorm(ctx, req.(*EmptyResponse))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VacationsService_GetVacationNormById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VacationNormId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).GetVacationNormById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_GetVacationNormById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).GetVacationNormById(ctx, req.(*VacationNormId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VacationsService_InsertVacationNorm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VacationNorm)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).InsertVacationNorm(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_InsertVacationNorm_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).InsertVacationNorm(ctx, req.(*VacationNorm))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VacationsService_UpdateVacationNorm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVacNormRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).UpdateVacationNorm(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_UpdateVacationNorm_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).UpdateVacationNorm(ctx, req.(*UpdateVacNormRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VacationsService_DeleteVacationNorm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VacationNormId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).DeleteVacationNorm(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_DeleteVacationNorm_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).DeleteVacationNorm(ctx, req.(*VacationNormId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // VacationsService_ServiceDesc is the grpc.ServiceDesc for VacationsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -480,6 +660,26 @@ var VacationsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteVacation",
 			Handler:    _VacationsService_DeleteVacation_Handler,
+		},
+		{
+			MethodName: "GetAllVacationNorm",
+			Handler:    _VacationsService_GetAllVacationNorm_Handler,
+		},
+		{
+			MethodName: "GetVacationNormById",
+			Handler:    _VacationsService_GetVacationNormById_Handler,
+		},
+		{
+			MethodName: "InsertVacationNorm",
+			Handler:    _VacationsService_InsertVacationNorm_Handler,
+		},
+		{
+			MethodName: "UpdateVacationNorm",
+			Handler:    _VacationsService_UpdateVacationNorm_Handler,
+		},
+		{
+			MethodName: "DeleteVacationNorm",
+			Handler:    _VacationsService_DeleteVacationNorm_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

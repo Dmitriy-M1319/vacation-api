@@ -16,8 +16,7 @@ import (
 
 var employeeRepo interfaces.EmployeeRepository
 var vacationRepo interfaces.VacationRepository
-
-// var vacationNormRepo interfaces.VacationNormRepository
+var vacationNormRepo interfaces.VacationNormRepository
 
 func main() {
 	err := godotenv.Load()
@@ -40,10 +39,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// vacationNormRepo, err = repository.NewPgVacationNormRepository(conn)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	vacationNormRepo, err = repository.NewPgVacationNormRepository(conn)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	lis, err := net.Listen("tcp", "[::1]:8080")
 	if err != nil {
@@ -51,7 +50,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	service := rpc.NewRpcService(employeeRepo, vacationRepo)
+	service := rpc.NewRpcService(employeeRepo, vacationRepo, vacationNormRepo)
 
 	pb.RegisterVacationsServiceServer(grpcServer, service)
 	err = grpcServer.Serve(lis)

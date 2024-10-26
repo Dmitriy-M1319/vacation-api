@@ -34,23 +34,45 @@ service VacationsService {
 
     // Удалить отпуск сотрудника из базы данных
     rpc DeleteVacation(VacationId) returns (EmptyResponse);
+
+    // Получить все нормы отпуска
+    rpc GetAllVacationNorm(EmptyResponse) returns (ManyVacationNormsResponse);
+
+    // Получить норму по его уникальному идентификатору
+    rpc GetVacationNormById(VacationNormId) returns (VacationNormResponse);
+
+    // Добавить новый норму отпуска в базу данных
+    rpc InsertVacationNorm(VacationNorm) returns (VacationNormResponse);
+
+    // Обновить данные для нормы отпуска
+    rpc UpdateVacationNorm(UpdateVacNormRequest) returns (VacationNormResponse);
+
+    // Удалить норму отпуск из базы данных
+    rpc DeleteVacationNorm(VacationNormId) returns (EmptyResponse);
 }
 
 // Модель единицы отпуска
 message Vacation {
-    int32 id = 1;
-    int32 empId = 2;
+    uint64 id = 1;
+    uint64 empId = 2;
     string startDate = 3;
     string endDate = 4;
-    int32 daysCount = 5;
+    uint64 daysCount = 5;
 }
 
 // Модель сотрудника
 message Employee {
-    int32 id = 1;
+    uint64 id = 1;
     string firstName = 2;
     string lastName = 3;
     string patronymic = 4;
+}
+
+// Модель нормы для отпуска по месяцам
+message VacationNorm {
+	uint64 id = 1;
+    string month = 2;
+	uint64 vacationsCount = 3;
 }
 
 message EmptyResponse {}
@@ -63,8 +85,12 @@ message ManyVacationsResponse {
     repeated Vacation vacations = 1;
 }
 
+message ManyVacationNormsResponse {
+    repeated VacationNorm norms = 1;
+}
+
 message VacationId {
-    int32 vacId = 1;
+    uint64 vacId = 1;
 }
 
 message VacationResponse {
@@ -72,22 +98,36 @@ message VacationResponse {
 }
 
 message EmployeeId {
-    int32 empId = 1;
+    uint64 empId = 1;
 }
 
 message EmployeeResponse {
     optional Employee emp = 1;
 }
 
+message VacationNormId {
+    uint64 normId = 1;
+}
+
+message VacationNormResponse {
+    optional VacationNorm norm = 1;
+}
+
 message UpdateEmpRequest {
-    int32 empId = 1;
+    uint64 empId = 1;
     Employee emp = 2;
 }
 
 message UpdateVacRequest {
-    int32 vacId = 1;
+    uint64 vacId = 1;
     Vacation vac = 2;
 }
+
+message UpdateVacNormRequest {
+    uint64 normId = 1;
+    VacationNorm norm = 2;
+}
+
 
 
 

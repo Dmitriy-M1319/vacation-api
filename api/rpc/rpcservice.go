@@ -10,14 +10,15 @@ import (
 
 type RpcService struct {
 	pb.UnimplementedVacationsServiceServer
-	empRepo interfaces.EmployeeRepository
-	vacRepo interfaces.VacationRepository
-	// normRepo interfaces.VacationNormRepository
+	empRepo  interfaces.EmployeeRepository
+	vacRepo  interfaces.VacationRepository
+	normRepo interfaces.VacationNormRepository
 }
 
 func NewRpcService(eRepo interfaces.EmployeeRepository,
-	vRepo interfaces.VacationRepository) *RpcService {
-	return &RpcService{empRepo: eRepo, vacRepo: vRepo}
+	vRepo interfaces.VacationRepository,
+	nRepo interfaces.VacationNormRepository) *RpcService {
+	return &RpcService{empRepo: eRepo, vacRepo: vRepo, normRepo: nRepo}
 }
 
 func (sr *RpcService) GetAllEmployeers(ctx context.Context, req *pb.EmptyResponse) (*pb.ManyEmployeersResponse, error) {
@@ -30,7 +31,7 @@ func (sr *RpcService) GetAllEmployeers(ctx context.Context, req *pb.EmptyRespons
 	res := make([]*pb.Employee, len(emps))
 	for i, e := range emps {
 		var emp = &pb.Employee{
-			Id:         int32(e.ID),
+			Id:         e.ID,
 			FirstName:  e.FirstName,
 			LastName:   e.LastName,
 			Patronymic: e.Patronymic,
@@ -48,7 +49,7 @@ func (sr *RpcService) GetEmployeeById(ctx context.Context, req *pb.EmployeeId) (
 	}
 
 	res := &pb.Employee{
-		Id:         int32(emp.ID),
+		Id:         emp.ID,
 		FirstName:  emp.FirstName,
 		LastName:   emp.LastName,
 		Patronymic: emp.Patronymic,
@@ -70,7 +71,7 @@ func (sr *RpcService) InsertEmployee(ctx context.Context, res *pb.Employee) (*pb
 	}
 
 	return &pb.EmployeeResponse{Emp: &pb.Employee{
-		Id:         int32(val.ID),
+		Id:         val.ID,
 		FirstName:  val.FirstName,
 		LastName:   val.LastName,
 		Patronymic: val.Patronymic,
@@ -119,7 +120,7 @@ func (sr *RpcService) GetVacationsByEmployee(ctx context.Context, req *pb.Employ
 
 	result := make([]*pb.Vacation, len(vacations))
 	for i, v := range vacations {
-		result[i] = &pb.Vacation{Id: int32(v.ID), EmpId: int32(v.EmployeeID), StartDate: v.StartDate, EndDate: v.EndDate, DaysCount: int32(v.DaysCount)}
+		result[i] = &pb.Vacation{Id: v.ID, EmpId: v.EmployeeID, StartDate: v.StartDate, EndDate: v.EndDate, DaysCount: v.DaysCount}
 	}
 
 	return &pb.ManyVacationsResponse{Vacations: result}, nil
@@ -132,7 +133,7 @@ func (sr *RpcService) GetVacationById(ctx context.Context, req *pb.VacationId) (
 		return nil, err
 	}
 
-	res := &pb.Vacation{Id: int32(v.ID), EmpId: int32(v.EmployeeID), StartDate: v.StartDate, EndDate: v.EndDate, DaysCount: int32(v.DaysCount)}
+	res := &pb.Vacation{Id: v.ID, EmpId: v.EmployeeID, StartDate: v.StartDate, EndDate: v.EndDate, DaysCount: v.DaysCount}
 
 	return &pb.VacationResponse{Vac: res}, nil
 }
@@ -151,11 +152,11 @@ func (sr *RpcService) InsertVacation(ctx context.Context, req *pb.Vacation) (*pb
 	}
 
 	return &pb.VacationResponse{Vac: &pb.Vacation{
-		Id:        int32(val.ID),
-		EmpId:     int32(val.EmployeeID),
+		Id:        val.ID,
+		EmpId:     val.EmployeeID,
 		StartDate: val.StartDate,
 		EndDate:   val.EndDate,
-		DaysCount: int32(val.DaysCount),
+		DaysCount: val.DaysCount,
 	}}, nil
 }
 
@@ -174,11 +175,11 @@ func (sr *RpcService) UpdateVacation(ctx context.Context, req *pb.UpdateVacReque
 	}
 
 	result := &pb.Vacation{
-		Id:        int32(val.ID),
-		EmpId:     int32(val.EmployeeID),
+		Id:        val.ID,
+		EmpId:     val.EmployeeID,
 		StartDate: val.StartDate,
 		EndDate:   val.EndDate,
-		DaysCount: int32(val.DaysCount),
+		DaysCount: val.DaysCount,
 	}
 
 	return &pb.VacationResponse{Vac: result}, nil
@@ -186,6 +187,82 @@ func (sr *RpcService) UpdateVacation(ctx context.Context, req *pb.UpdateVacReque
 
 func (sr *RpcService) DeleteVacation(ctx context.Context, req *pb.VacationId) (*pb.EmptyResponse, error) {
 	err := sr.vacRepo.Delete(uint64(req.VacId))
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.EmptyResponse{}, nil
+}
+
+func (sr *RpcService) GetAllVacationNorms(ctx context.Context, req *pb.EmployeeResponse) (*pb.ManyVacationNormsResponse, error) {
+	norms, err := sr.normRepo.GetAll()
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([]*pb.VacationNorm, len(norms))
+	for i, n := range norms {
+		result[i] = &pb.VacationNorm{Id: n.ID, Month: n.Month, VacationsCount: n.VacationsCount}
+	}
+
+	return &pb.ManyVacationNormsResponse{Norms: result}, nil
+}
+
+func (sr *RpcService) GetVacationNormById(ctx context.Context, req *pb.VacationNormId) (*pb.VacationNormResponse, error) {
+	n, err := sr.normRepo.GetById(uint64(req.NormId))
+
+	if err != nil {
+		return nil, err
+	}
+
+	res := &pb.VacationNorm{Id: n.ID, Month: n.Month, VacationsCount: n.VacationsCount}
+
+	return &pb.VacationNormResponse{Norm: res}, nil
+}
+
+func (sr *RpcService) InsertVacationNorm(ctx context.Context, req *pb.VacationNorm) (*pb.VacationNormResponse, error) {
+	val := &models.VacationNorm{
+		Month:          req.Month,
+		VacationsCount: req.VacationsCount,
+	}
+	err := sr.normRepo.Insert(val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.VacationNormResponse{Norm: &pb.VacationNorm{
+		Id:             val.ID,
+		Month:          val.Month,
+		VacationsCount: val.VacationsCount,
+	}}, nil
+}
+
+func (sr *RpcService) UpdateVacationNorm(ctx context.Context, req *pb.UpdateVacNormRequest) (*pb.VacationNormResponse, error) {
+	val := &models.VacationNorm{
+		Month:          req.Norm.Month,
+		VacationsCount: req.Norm.VacationsCount,
+	}
+
+	err := sr.normRepo.Update(req.NormId, val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := &pb.VacationNorm{
+		Id:             val.ID,
+		Month:          val.Month,
+		VacationsCount: val.VacationsCount,
+	}
+
+	return &pb.VacationNormResponse{Norm: result}, nil
+}
+
+func (sr *RpcService) DeleteVacationNorm(ctx context.Context, req *pb.VacationNormId) (*pb.EmptyResponse, error) {
+	err := sr.normRepo.Delete(req.NormId)
 
 	if err != nil {
 		return nil, err
