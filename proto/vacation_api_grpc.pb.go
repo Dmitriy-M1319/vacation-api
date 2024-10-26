@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.2
-// source: vacation-api.proto
+// source: vacation_api.proto
 
 package proto
 
@@ -683,5 +683,5 @@ var VacationsService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "vacation-api.proto",
+	Metadata: "vacation_api.proto",
 }
