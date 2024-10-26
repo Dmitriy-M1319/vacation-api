@@ -27,7 +27,7 @@ service VacationsService {
     rpc GetVacationById(VacationId) returns (VacationResponse);
 
     // Добавить новый отпуск для сотрудника в базу данных
-    rpc InsertVacation(Vacation) returns (EmptyResponse);
+    rpc InsertVacation(Vacation) returns (VacationResponse);
 
     // Обновить данные для отпуска
     rpc UpdateVacation(UpdateVacRequest) returns (VacationResponse);

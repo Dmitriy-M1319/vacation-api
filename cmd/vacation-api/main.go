@@ -15,8 +15,8 @@ import (
 )
 
 var employeeRepo interfaces.EmployeeRepository
+var vacationRepo interfaces.VacationRepository
 
-// var vacationRepo interfaces.VacationRepository
 // var vacationNormRepo interfaces.VacationNormRepository
 
 func main() {
@@ -36,10 +36,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// vacationRepo, err = repository.NewPgVacationRepository(conn)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	vacationRepo, err = repository.NewPgVacationRepository(conn)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// vacationNormRepo, err = repository.NewPgVacationNormRepository(conn)
 	// if err != nil {
 	// 	log.Fatal(err)
@@ -51,7 +51,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	service := rpc.NewRpcService(employeeRepo)
+	service := rpc.NewRpcService(employeeRepo, vacationRepo)
 
 	pb.RegisterVacationsServiceServer(grpcServer, service)
 	err = grpcServer.Serve(lis)

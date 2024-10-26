@@ -52,7 +52,7 @@ type VacationsServiceClient interface {
 	// Получить отпуск по его уникальному идентификатору
 	GetVacationById(ctx context.Context, in *VacationId, opts ...grpc.CallOption) (*VacationResponse, error)
 	// Добавить новый отпуск для сотрудника в базу данных
-	InsertVacation(ctx context.Context, in *Vacation, opts ...grpc.CallOption) (*EmptyResponse, error)
+	InsertVacation(ctx context.Context, in *Vacation, opts ...grpc.CallOption) (*VacationResponse, error)
 	// Обновить данные для отпуска
 	UpdateVacation(ctx context.Context, in *UpdateVacRequest, opts ...grpc.CallOption) (*VacationResponse, error)
 	// Удалить отпуск сотрудника из базы данных
@@ -137,9 +137,9 @@ func (c *vacationsServiceClient) GetVacationById(ctx context.Context, in *Vacati
 	return out, nil
 }
 
-func (c *vacationsServiceClient) InsertVacation(ctx context.Context, in *Vacation, opts ...grpc.CallOption) (*EmptyResponse, error) {
+func (c *vacationsServiceClient) InsertVacation(ctx context.Context, in *Vacation, opts ...grpc.CallOption) (*VacationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(EmptyResponse)
+	out := new(VacationResponse)
 	err := c.cc.Invoke(ctx, VacationsService_InsertVacation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -188,7 +188,7 @@ type VacationsServiceServer interface {
 	// Получить отпуск по его уникальному идентификатору
 	GetVacationById(context.Context, *VacationId) (*VacationResponse, error)
 	// Добавить новый отпуск для сотрудника в базу данных
-	InsertVacation(context.Context, *Vacation) (*EmptyResponse, error)
+	InsertVacation(context.Context, *Vacation) (*VacationResponse, error)
 	// Обновить данные для отпуска
 	UpdateVacation(context.Context, *UpdateVacRequest) (*VacationResponse, error)
 	// Удалить отпуск сотрудника из базы данных
@@ -224,7 +224,7 @@ func (UnimplementedVacationsServiceServer) GetVacationsByEmployee(context.Contex
 func (UnimplementedVacationsServiceServer) GetVacationById(context.Context, *VacationId) (*VacationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVacationById not implemented")
 }
-func (UnimplementedVacationsServiceServer) InsertVacation(context.Context, *Vacation) (*EmptyResponse, error) {
+func (UnimplementedVacationsServiceServer) InsertVacation(context.Context, *Vacation) (*VacationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InsertVacation not implemented")
 }
 func (UnimplementedVacationsServiceServer) UpdateVacation(context.Context, *UpdateVacRequest) (*VacationResponse, error) {

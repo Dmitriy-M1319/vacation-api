@@ -11,12 +11,13 @@ import (
 type RpcService struct {
 	pb.UnimplementedVacationsServiceServer
 	empRepo interfaces.EmployeeRepository
-	// vacRepo  interfaces.VacationRepository
+	vacRepo interfaces.VacationRepository
 	// normRepo interfaces.VacationNormRepository
 }
 
-func NewRpcService(eRepo interfaces.EmployeeRepository) *RpcService {
-	return &RpcService{empRepo: eRepo}
+func NewRpcService(eRepo interfaces.EmployeeRepository,
+	vRepo interfaces.VacationRepository) *RpcService {
+	return &RpcService{empRepo: eRepo, vacRepo: vRepo}
 }
 
 func (sr *RpcService) GetAllEmployeers(ctx context.Context, req *pb.EmptyResponse) (*pb.ManyEmployeersResponse, error) {
@@ -68,7 +69,6 @@ func (sr *RpcService) InsertEmployee(ctx context.Context, res *pb.Employee) (*pb
 		return nil, err
 	}
 
-	//TODO: Пофиксить респонс для процедуры
 	return &pb.EmployeeResponse{Emp: &pb.Employee{
 		Id:         int32(val.ID),
 		FirstName:  val.FirstName,
@@ -108,4 +108,88 @@ func (sr *RpcService) DeleteEmployee(ctx context.Context, req *pb.EmployeeId) (*
 	} else {
 		return &pb.EmptyResponse{}, nil
 	}
+}
+
+func (sr *RpcService) GetVacationsByEmployee(ctx context.Context, req *pb.EmployeeId) (*pb.ManyVacationsResponse, error) {
+	vacations, err := sr.vacRepo.GetByEmployeeId(uint64(req.EmpId))
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([]*pb.Vacation, len(vacations))
+	for i, v := range vacations {
+		result[i] = &pb.Vacation{Id: int32(v.ID), EmpId: int32(v.EmployeeID), StartDate: v.StartDate, EndDate: v.EndDate, DaysCount: int32(v.DaysCount)}
+	}
+
+	return &pb.ManyVacationsResponse{Vacations: result}, nil
+}
+
+func (sr *RpcService) GetVacationById(ctx context.Context, req *pb.VacationId) (*pb.VacationResponse, error) {
+	v, err := sr.vacRepo.GetById(uint64(req.VacId))
+
+	if err != nil {
+		return nil, err
+	}
+
+	res := &pb.Vacation{Id: int32(v.ID), EmpId: int32(v.EmployeeID), StartDate: v.StartDate, EndDate: v.EndDate, DaysCount: int32(v.DaysCount)}
+
+	return &pb.VacationResponse{Vac: res}, nil
+}
+
+func (sr *RpcService) InsertVacation(ctx context.Context, req *pb.Vacation) (*pb.VacationResponse, error) {
+	val := &models.Vacation{
+		EmployeeID: uint64(req.EmpId),
+		StartDate:  req.StartDate,
+		EndDate:    req.EndDate,
+		DaysCount:  uint64(req.DaysCount),
+	}
+	err := sr.vacRepo.Insert(val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.VacationResponse{Vac: &pb.Vacation{
+		Id:        int32(val.ID),
+		EmpId:     int32(val.EmployeeID),
+		StartDate: val.StartDate,
+		EndDate:   val.EndDate,
+		DaysCount: int32(val.DaysCount),
+	}}, nil
+}
+
+func (sr *RpcService) UpdateVacation(ctx context.Context, req *pb.UpdateVacRequest) (*pb.VacationResponse, error) {
+	val := &models.Vacation{
+		EmployeeID: uint64(req.Vac.EmpId),
+		StartDate:  req.Vac.StartDate,
+		EndDate:    req.Vac.EndDate,
+		DaysCount:  uint64(req.Vac.DaysCount),
+	}
+
+	err := sr.vacRepo.Update(uint64(req.VacId), val)
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := &pb.Vacation{
+		Id:        int32(val.ID),
+		EmpId:     int32(val.EmployeeID),
+		StartDate: val.StartDate,
+		EndDate:   val.EndDate,
+		DaysCount: int32(val.DaysCount),
+	}
+
+	return &pb.VacationResponse{Vac: result}, nil
+}
+
+func (sr *RpcService) DeleteVacation(ctx context.Context, req *pb.VacationId) (*pb.EmptyResponse, error) {
+	err := sr.vacRepo.Delete(uint64(req.VacId))
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.EmptyResponse{}, nil
 }
