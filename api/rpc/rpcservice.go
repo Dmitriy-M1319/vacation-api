@@ -8,6 +8,8 @@ import (
 	pb "github.com/Dmitriy-M1319/vacation-api/proto"
 )
 
+// cool comment for test push
+
 type RpcService struct {
 	pb.UnimplementedVacationsServiceServer
 	empRepo  interfaces.EmployeeRepository
