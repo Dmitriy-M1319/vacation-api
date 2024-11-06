@@ -8,6 +8,7 @@ import (
 	"github.com/Dmitriy-M1319/vacation-api/internal/database"
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository"
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository/interfaces"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
@@ -61,6 +62,7 @@ func main() {
 	// }
 
 	httpRouter := gin.Default()
+	httpRouter.Use(cors.Default())
 
 	employeeHandler := http.NewEmployeeHandlers(employeeRepo)
 	httpRouter.GET("/employees", employeeHandler.GetAll)
