@@ -15,7 +15,6 @@ type SqlEmployeeRepository struct {
 func NewPgEmployeeRepository(c *sqlx.DB) (*SqlEmployeeRepository, error) {
 	rep := SqlEmployeeRepository{connection: c}
 
-	//seed
 	query := `CREATE TABLE IF NOT EXISTS employees(
 	id serial primary key,
 	first_name varchar(255),
