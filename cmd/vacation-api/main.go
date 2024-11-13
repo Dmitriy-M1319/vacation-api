@@ -1,8 +1,13 @@
 package main
 
 import (
+	"context"
 	"log"
+	http2 "net/http"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/Dmitriy-M1319/vacation-api/api/http"
 	"github.com/Dmitriy-M1319/vacation-api/internal/database"
@@ -61,6 +66,7 @@ func main() {
 	// 	log.Fatalf("Error strating server: %v", err)
 	// }
 
+	ctx := context.Background()
 	httpRouter := gin.Default()
 	httpRouter.Use(cors.Default())
 
@@ -88,5 +94,27 @@ func main() {
 
 	httpRouter.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	httpRouter.Run("localhost:8081")
+	server := &http2.Server{
+		Addr:    "localhost:8081",
+		Handler: httpRouter.Handler(),
+	}
+
+	go func() {
+		err := server.ListenAndServe()
+		if err != http2.ErrServerClosed {
+			log.Fatal(err.Error())
+		}
+	}()
+
+	notifChan := make(chan os.Signal, 1)
+	signal.Notify(notifChan, syscall.SIGINT, syscall.SIGTERM)
+	_ = <-notifChan
+
+	closeCtx, cancel := context.WithTimeout(ctx, time.Second*10)
+	defer cancel()
+
+	err = server.Shutdown(closeCtx)
+	if err != nil {
+		log.Fatalf("Failed to complete graceful shutdown: %v\n", err)
+	}
 }
