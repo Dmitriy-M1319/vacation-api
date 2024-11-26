@@ -1,6 +1,10 @@
 syntax="proto3";
+//import "google/api/annotations.proto";
 
-option go_package = "github.com/Dmitriy-M1319/vacation-api/proto";
+package vacation_api.v1;
+
+option go_package = "github.com/Dmitriy-M1319/vacation-api/pkg/vacation_api;vacation_api";
+
 
 // Сервисы для моделей данных
 service VacationsService {

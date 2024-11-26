@@ -5,7 +5,7 @@ import (
 
 	"github.com/Dmitriy-M1319/vacation-api/internal/models"
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository/interfaces"
-	pb "github.com/Dmitriy-M1319/vacation-api/proto"
+	pb "github.com/Dmitriy-M1319/vacation-api/pkg/vacation_api/v1"
 )
 
 type RpcService struct {
