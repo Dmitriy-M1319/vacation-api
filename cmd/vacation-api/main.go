@@ -22,8 +22,8 @@ var employeeRepo interfaces.EmployeeRepository
 var vacationRepo interfaces.VacationRepository
 var vacationNormRepo interfaces.VacationNormRepository
 
-func runGrpcServer() {
-	sock, err := net.Listen("tcp", ":12201")
+func runGrpcServer(port string) {
+	sock, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		log.Fatalf("failed to listen port: %v", err)
 	}
@@ -39,18 +39,18 @@ func runGrpcServer() {
 	}
 }
 
-func runGrpcGatewayRest() {
+func runGrpcGatewayRest(httpPort, grpcPort string) {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
-	err := pb.RegisterVacationsServiceHandlerFromEndpoint(ctx, mux, "localhost:12201", opts)
+	err := pb.RegisterVacationsServiceHandlerFromEndpoint(ctx, mux, "localhost:"+grpcPort, opts)
 	if err != nil {
 		panic(err)
 	}
-	log.Printf("server listening at 8081")
-	if err := http.ListenAndServe(":8081", mux); err != nil {
+	log.Printf("server listening at %s", httpPort)
+	if err := http.ListenAndServe(":"+httpPort, mux); err != nil {
 		panic(err)
 	}
 }
@@ -81,6 +81,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	go runGrpcGatewayRest()
-	runGrpcServer()
+	go runGrpcGatewayRest(os.Getenv("API_HTTP_PORT"), os.Getenv("API_GRPC_PORT"))
+	runGrpcServer(os.Getenv("API_GRPC_PORT"))
 }

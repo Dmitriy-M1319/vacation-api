@@ -94,7 +94,7 @@ service VacationsService {
   }
 
   // Получить все нормы отпуска
-  rpc GetAllVacationNorm(EmptyResponse) returns (ManyVacationNormsResponse) {
+  rpc GetAllVacationNorms(EmptyResponse) returns (ManyVacationNormsResponse) {
     option (google.api.http) = {
       get: "/v1/norms"
     };

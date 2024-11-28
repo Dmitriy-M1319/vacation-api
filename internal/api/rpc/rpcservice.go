@@ -195,7 +195,7 @@ func (sr *RpcService) DeleteVacation(ctx context.Context, req *pb.VacationId) (*
 	return &pb.EmptyResponse{}, nil
 }
 
-func (sr *RpcService) GetAllVacationNorms(ctx context.Context, req *pb.EmployeeResponse) (*pb.ManyVacationNormsResponse, error) {
+func (sr *RpcService) GetAllVacationNorms(ctx context.Context, req *pb.EmptyResponse) (*pb.ManyVacationNormsResponse, error) {
 	norms, err := sr.normRepo.GetAll()
 
 	if err != nil {

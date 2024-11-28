@@ -209,7 +209,7 @@
     "/v1/norms": {
       "get": {
         "summary": "Получить все нормы отпуска",
-        "operationId": "VacationsService_GetAllVacationNorm",
+        "operationId": "VacationsService_GetAllVacationNorms",
         "responses": {
           "200": {
             "description": "A successful response.",

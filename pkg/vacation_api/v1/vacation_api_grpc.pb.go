@@ -38,7 +38,7 @@ type VacationsServiceClient interface {
 	// Удалить отпуск сотрудника из базы данных
 	DeleteVacation(ctx context.Context, in *VacationId, opts ...grpc.CallOption) (*EmptyResponse, error)
 	// Получить все нормы отпуска
-	GetAllVacationNorm(ctx context.Context, in *EmptyResponse, opts ...grpc.CallOption) (*ManyVacationNormsResponse, error)
+	GetAllVacationNorms(ctx context.Context, in *EmptyResponse, opts ...grpc.CallOption) (*ManyVacationNormsResponse, error)
 	// Получить норму по его уникальному идентификатору
 	GetVacationNormById(ctx context.Context, in *VacationNormId, opts ...grpc.CallOption) (*VacationNormResponse, error)
 	// Добавить новый норму отпуска в базу данных
@@ -147,9 +147,9 @@ func (c *vacationsServiceClient) DeleteVacation(ctx context.Context, in *Vacatio
 	return out, nil
 }
 
-func (c *vacationsServiceClient) GetAllVacationNorm(ctx context.Context, in *EmptyResponse, opts ...grpc.CallOption) (*ManyVacationNormsResponse, error) {
+func (c *vacationsServiceClient) GetAllVacationNorms(ctx context.Context, in *EmptyResponse, opts ...grpc.CallOption) (*ManyVacationNormsResponse, error) {
 	out := new(ManyVacationNormsResponse)
-	err := c.cc.Invoke(ctx, "/vacation_api.v1.VacationsService/GetAllVacationNorm", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/vacation_api.v1.VacationsService/GetAllVacationNorms", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -217,7 +217,7 @@ type VacationsServiceServer interface {
 	// Удалить отпуск сотрудника из базы данных
 	DeleteVacation(context.Context, *VacationId) (*EmptyResponse, error)
 	// Получить все нормы отпуска
-	GetAllVacationNorm(context.Context, *EmptyResponse) (*ManyVacationNormsResponse, error)
+	GetAllVacationNorms(context.Context, *EmptyResponse) (*ManyVacationNormsResponse, error)
 	// Получить норму по его уникальному идентификатору
 	GetVacationNormById(context.Context, *VacationNormId) (*VacationNormResponse, error)
 	// Добавить новый норму отпуска в базу данных
@@ -263,8 +263,8 @@ func (UnimplementedVacationsServiceServer) UpdateVacation(context.Context, *Upda
 func (UnimplementedVacationsServiceServer) DeleteVacation(context.Context, *VacationId) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteVacation not implemented")
 }
-func (UnimplementedVacationsServiceServer) GetAllVacationNorm(context.Context, *EmptyResponse) (*ManyVacationNormsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllVacationNorm not implemented")
+func (UnimplementedVacationsServiceServer) GetAllVacationNorms(context.Context, *EmptyResponse) (*ManyVacationNormsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllVacationNorms not implemented")
 }
 func (UnimplementedVacationsServiceServer) GetVacationNormById(context.Context, *VacationNormId) (*VacationNormResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVacationNormById not implemented")
@@ -471,20 +471,20 @@ func _VacationsService_DeleteVacation_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _VacationsService_GetAllVacationNorm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _VacationsService_GetAllVacationNorms_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EmptyResponse)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(VacationsServiceServer).GetAllVacationNorm(ctx, in)
+		return srv.(VacationsServiceServer).GetAllVacationNorms(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/vacation_api.v1.VacationsService/GetAllVacationNorm",
+		FullMethod: "/vacation_api.v1.VacationsService/GetAllVacationNorms",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VacationsServiceServer).GetAllVacationNorm(ctx, req.(*EmptyResponse))
+		return srv.(VacationsServiceServer).GetAllVacationNorms(ctx, req.(*EmptyResponse))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -606,8 +606,8 @@ var _VacationsService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _VacationsService_DeleteVacation_Handler,
 		},
 		{
-			MethodName: "GetAllVacationNorm",
-			Handler:    _VacationsService_GetAllVacationNorm_Handler,
+			MethodName: "GetAllVacationNorms",
+			Handler:    _VacationsService_GetAllVacationNorms_Handler,
 		},
 		{
 			MethodName: "GetVacationNormById",
