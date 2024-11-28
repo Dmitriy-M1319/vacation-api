@@ -1,0 +1,342 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "vacation_api/v1/vacation_api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "VacationsService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/employees": {
+      "get": {
+        "summary": "Получить всех работников вместе с отпусками",
+        "operationId": "VacationsService_GetAllEmployeers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ManyEmployeersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "VacationsService"
+        ]
+      },
+      "post": {
+        "summary": "Добавить нового сотрудника в базу данных",
+        "operationId": "VacationsService_InsertEmployee",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmployeeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1Employee"
+            }
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      }
+    },
+    "/v1/employees/{id}": {
+      "get": {
+        "summary": "Получить cотрудника по его номеру",
+        "operationId": "VacationsService_GetEmployeeById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmployeeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      },
+      "delete": {
+        "summary": "Удалить сотрудника из базы данных",
+        "operationId": "VacationsService_DeleteEmployee",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmptyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      },
+      "put": {
+        "summary": "Обновить данные для сотрудника",
+        "operationId": "VacationsService_UpdateEmployee",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmployeeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VacationsServiceUpdateEmployeeBody"
+            }
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "VacationsServiceUpdateEmployeeBody": {
+      "type": "object",
+      "properties": {
+        "emp": {
+          "$ref": "#/definitions/v1Employee"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Employee": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "patronymic": {
+          "type": "string"
+        }
+      },
+      "title": "EmployeeDto"
+    },
+    "v1EmployeeResponse": {
+      "type": "object",
+      "properties": {
+        "emp": {
+          "$ref": "#/definitions/v1Employee"
+        }
+      },
+      "title": "EmployeeResponse"
+    },
+    "v1EmptyResponse": {
+      "type": "object",
+      "title": "EmptyResponseDto"
+    },
+    "v1ManyEmployeersResponse": {
+      "type": "object",
+      "properties": {
+        "employees": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Employee"
+          }
+        }
+      },
+      "title": "EmployeesDto"
+    },
+    "v1ManyVacationNormsResponse": {
+      "type": "object",
+      "properties": {
+        "norms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1VacationNorm"
+          }
+        }
+      },
+      "title": "VacationNormsDto"
+    },
+    "v1ManyVacationsResponse": {
+      "type": "object",
+      "properties": {
+        "vacations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Vacation"
+          }
+        }
+      },
+      "title": "VacationsDto"
+    },
+    "v1Vacation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "empId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "daysCount": {
+          "type": "string",
+          "format": "uint64"
+        }
+      },
+      "title": "VacationDto"
+    },
+    "v1VacationNorm": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "month": {
+          "type": "string"
+        },
+        "vacationsCount": {
+          "type": "string",
+          "format": "uint64"
+        }
+      },
+      "title": "VacationNormDto"
+    },
+    "v1VacationNormResponse": {
+      "type": "object",
+      "properties": {
+        "norm": {
+          "$ref": "#/definitions/v1VacationNorm"
+        }
+      },
+      "title": "VacationNormResponse"
+    },
+    "v1VacationResponse": {
+      "type": "object",
+      "properties": {
+        "vac": {
+          "$ref": "#/definitions/v1Vacation"
+        }
+      },
+      "title": "VacationResponse"
+    }
+  }
+}

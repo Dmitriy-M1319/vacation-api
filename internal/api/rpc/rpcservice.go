@@ -43,7 +43,7 @@ func (sr *RpcService) GetAllEmployeers(ctx context.Context, req *pb.EmptyRespons
 }
 
 func (sr *RpcService) GetEmployeeById(ctx context.Context, req *pb.EmployeeId) (*pb.EmployeeResponse, error) {
-	emp, err := sr.empRepo.GetById(uint64(req.GetEmpId()))
+	emp, err := sr.empRepo.GetById(uint64(req.GetId()))
 	if err != nil {
 		return nil, err
 	}
@@ -85,14 +85,14 @@ func (sr *RpcService) UpdateEmployee(ctx context.Context, req *pb.UpdateEmpReque
 		Patronymic: req.Emp.Patronymic,
 	}
 
-	err := sr.empRepo.Update(uint64(req.EmpId), val)
+	err := sr.empRepo.Update(uint64(req.Id), val)
 
 	if err != nil {
 		return nil, err
 	}
 
 	result := &pb.Employee{
-		Id:         req.EmpId,
+		Id:         req.Id,
 		FirstName:  val.FirstName,
 		LastName:   val.LastName,
 		Patronymic: val.Patronymic,
@@ -102,7 +102,7 @@ func (sr *RpcService) UpdateEmployee(ctx context.Context, req *pb.UpdateEmpReque
 }
 
 func (sr *RpcService) DeleteEmployee(ctx context.Context, req *pb.EmployeeId) (*pb.EmptyResponse, error) {
-	err := sr.empRepo.Delete(uint64(req.EmpId))
+	err := sr.empRepo.Delete(uint64(req.Id))
 
 	if err != nil {
 		return nil, err
@@ -112,7 +112,7 @@ func (sr *RpcService) DeleteEmployee(ctx context.Context, req *pb.EmployeeId) (*
 }
 
 func (sr *RpcService) GetVacationsByEmployee(ctx context.Context, req *pb.EmployeeId) (*pb.ManyVacationsResponse, error) {
-	vacations, err := sr.vacRepo.GetByEmployeeId(uint64(req.EmpId))
+	vacations, err := sr.vacRepo.GetByEmployeeId(uint64(req.Id))
 
 	if err != nil {
 		return nil, err
@@ -127,7 +127,7 @@ func (sr *RpcService) GetVacationsByEmployee(ctx context.Context, req *pb.Employ
 }
 
 func (sr *RpcService) GetVacationById(ctx context.Context, req *pb.VacationId) (*pb.VacationResponse, error) {
-	v, err := sr.vacRepo.GetById(uint64(req.VacId))
+	v, err := sr.vacRepo.GetById(uint64(req.Id))
 
 	if err != nil {
 		return nil, err
@@ -168,7 +168,7 @@ func (sr *RpcService) UpdateVacation(ctx context.Context, req *pb.UpdateVacReque
 		DaysCount:  uint64(req.Vac.DaysCount),
 	}
 
-	err := sr.vacRepo.Update(uint64(req.VacId), val)
+	err := sr.vacRepo.Update(uint64(req.Id), val)
 
 	if err != nil {
 		return nil, err
@@ -186,7 +186,7 @@ func (sr *RpcService) UpdateVacation(ctx context.Context, req *pb.UpdateVacReque
 }
 
 func (sr *RpcService) DeleteVacation(ctx context.Context, req *pb.VacationId) (*pb.EmptyResponse, error) {
-	err := sr.vacRepo.Delete(uint64(req.VacId))
+	err := sr.vacRepo.Delete(uint64(req.Id))
 
 	if err != nil {
 		return nil, err
@@ -211,7 +211,7 @@ func (sr *RpcService) GetAllVacationNorms(ctx context.Context, req *pb.EmployeeR
 }
 
 func (sr *RpcService) GetVacationNormById(ctx context.Context, req *pb.VacationNormId) (*pb.VacationNormResponse, error) {
-	n, err := sr.normRepo.GetById(uint64(req.NormId))
+	n, err := sr.normRepo.GetById(uint64(req.Id))
 
 	if err != nil {
 		return nil, err
@@ -246,7 +246,7 @@ func (sr *RpcService) UpdateVacationNorm(ctx context.Context, req *pb.UpdateVacN
 		VacationsCount: req.Norm.VacationsCount,
 	}
 
-	err := sr.normRepo.Update(req.NormId, val)
+	err := sr.normRepo.Update(req.Id, val)
 
 	if err != nil {
 		return nil, err
@@ -262,7 +262,7 @@ func (sr *RpcService) UpdateVacationNorm(ctx context.Context, req *pb.UpdateVacN
 }
 
 func (sr *RpcService) DeleteVacationNorm(ctx context.Context, req *pb.VacationNormId) (*pb.EmptyResponse, error) {
-	err := sr.normRepo.Delete(req.NormId)
+	err := sr.normRepo.Delete(req.Id)
 
 	if err != nil {
 		return nil, err

@@ -76,7 +76,7 @@ service VacationsService {
   rpc DeleteVacationNorm(VacationNormId) returns (EmptyResponse);
 }
 
-// Модель единицы отпуска
+// VacationDto
 message Vacation {
   uint64 id = 1;
   uint64 emp_id = 2;
@@ -85,7 +85,7 @@ message Vacation {
   uint64 days_count = 5;
 }
 
-// Модель сотрудника
+// EmployeeDto
 message Employee {
   uint64 id = 1;
   string first_name = 2;
@@ -93,48 +93,58 @@ message Employee {
   string patronymic = 4;
 }
 
-// Модель нормы для отпуска по месяцам
+// VacationNormDto
 message VacationNorm {
   uint64 id = 1;
   string month = 2;
   uint64 vacations_count = 3;
 }
 
+// EmptyResponseDto
 message EmptyResponse {
 }
 
+// EmployeesDto
 message ManyEmployeersResponse {
   repeated Employee employees = 1;
 }
 
+// VacationsDto
 message ManyVacationsResponse {
   repeated Vacation vacations = 1;
 }
 
+// VacationNormsDto
 message ManyVacationNormsResponse {
   repeated VacationNorm norms = 1;
 }
 
+// VacationId
 message VacationId {
   uint64 id = 1;
 }
 
+// VacationResponse
 message VacationResponse {
   Vacation vac = 1;
 }
 
+// EmployeeId
 message EmployeeId {
   uint64 id = 1;
 }
 
+// EmployeeResponse
 message EmployeeResponse {
   Employee emp = 1;
 }
 
+// VacationNormId
 message VacationNormId {
   uint64 id = 1;
 }
 
+// VacationNormResponse
 message VacationNormResponse {
   VacationNorm norm = 1;
 }
