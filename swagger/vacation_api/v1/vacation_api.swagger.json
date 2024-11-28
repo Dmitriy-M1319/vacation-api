@@ -1,13 +1,17 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "vacation_api/v1/vacation_api.proto",
-    "version": "version not set"
+    "title": "Vacations Service",
+    "version": "v1.0"
   },
   "tags": [
     {
       "name": "VacationsService"
     }
+  ],
+  "schemes": [
+    "http",
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -169,6 +173,325 @@
           "VacationsService"
         ]
       }
+    },
+    "/v1/employees/{id}/vacations": {
+      "get": {
+        "summary": "Получить список отпусков для определенного работника",
+        "operationId": "VacationsService_GetVacationsByEmployee",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ManyVacationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      }
+    },
+    "/v1/norms": {
+      "get": {
+        "summary": "Получить все нормы отпуска",
+        "operationId": "VacationsService_GetAllVacationNorm",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ManyVacationNormsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "VacationsService"
+        ]
+      },
+      "post": {
+        "summary": "Добавить новый норму отпуска в базу данных",
+        "operationId": "VacationsService_InsertVacationNorm",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VacationNormResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VacationNorm"
+            }
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      }
+    },
+    "/v1/norms/{id}": {
+      "get": {
+        "summary": "Получить норму по его уникальному идентификатору",
+        "operationId": "VacationsService_GetVacationNormById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VacationNormResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      },
+      "delete": {
+        "summary": "Удалить норму отпуск из базы данных",
+        "operationId": "VacationsService_DeleteVacationNorm",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmptyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      },
+      "put": {
+        "summary": "Обновить данные для нормы отпуска",
+        "operationId": "VacationsService_UpdateVacationNorm",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VacationNormResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VacationsServiceUpdateVacationNormBody"
+            }
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      }
+    },
+    "/v1/vacations": {
+      "post": {
+        "summary": "Добавить новый отпуск для сотрудника в базу данных",
+        "operationId": "VacationsService_InsertVacation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VacationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1Vacation"
+            }
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      }
+    },
+    "/v1/vacations/{id}": {
+      "get": {
+        "summary": "Получить отпуск по его уникальному идентификатору",
+        "operationId": "VacationsService_GetVacationById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VacationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      },
+      "delete": {
+        "summary": "Удалить отпуск сотрудника из базы данных",
+        "operationId": "VacationsService_DeleteVacation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmptyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      },
+      "put": {
+        "summary": "Обновить данные для отпуска",
+        "operationId": "VacationsService_UpdateVacation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VacationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VacationsServiceUpdateVacationBody"
+            }
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -177,6 +500,22 @@
       "properties": {
         "emp": {
           "$ref": "#/definitions/v1Employee"
+        }
+      }
+    },
+    "VacationsServiceUpdateVacationBody": {
+      "type": "object",
+      "properties": {
+        "vac": {
+          "$ref": "#/definitions/v1Vacation"
+        }
+      }
+    },
+    "VacationsServiceUpdateVacationNormBody": {
+      "type": "object",
+      "properties": {
+        "norm": {
+          "$ref": "#/definitions/v1VacationNorm"
         }
       }
     },

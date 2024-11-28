@@ -2,8 +2,19 @@ syntax="proto3";
 import "google/api/annotations.proto";
 package vacation_api.v1;
 option go_package = "github.com/Dmitriy-M1319/vacation-api/pkg/vacation_api;vacation_api";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+      title: "Vacations Service";
+      version: "v1.0";
+  };
 
+  schemes: HTTP;
+  schemes: HTTPS;
+  consumes: "application/json";
+  produces: "application/json";
+};
 
 // Сервисы для моделей данных
 service VacationsService {
@@ -46,34 +57,78 @@ service VacationsService {
   }
 
   // Получить список отпусков для определенного работника
-  rpc GetVacationsByEmployee(EmployeeId) returns(ManyVacationsResponse);
+  rpc GetVacationsByEmployee(EmployeeId) returns(ManyVacationsResponse) {
+    option (google.api.http) = {
+      get: "/v1/employees/{id}/vacations"
+    };
+  }
 
   // Получить отпуск по его уникальному идентификатору
-  rpc GetVacationById(VacationId) returns (VacationResponse);
+  rpc GetVacationById(VacationId) returns (VacationResponse) {
+    option (google.api.http) = {
+      get: "/v1/vacations/{id}"
+    };
+  }
 
   // Добавить новый отпуск для сотрудника в базу данных
-  rpc InsertVacation(Vacation) returns (VacationResponse);
+  rpc InsertVacation(Vacation) returns (VacationResponse) {
+    option (google.api.http) = {
+      post: "/v1/vacations"
+      body: "*"
+    };
+  }
 
   // Обновить данные для отпуска
-  rpc UpdateVacation(UpdateVacRequest) returns (VacationResponse);
+  rpc UpdateVacation(UpdateVacRequest) returns (VacationResponse) {
+    option (google.api.http) = {
+      put: "/v1/vacations/{id}"
+      body: "*"
+    };
+  }
 
   // Удалить отпуск сотрудника из базы данных
-  rpc DeleteVacation(VacationId) returns (EmptyResponse);
+  rpc DeleteVacation(VacationId) returns (EmptyResponse) {
+    option (google.api.http) = {
+      delete: "/v1/vacations/{id}"
+    };
+  }
 
   // Получить все нормы отпуска
-  rpc GetAllVacationNorm(EmptyResponse) returns (ManyVacationNormsResponse);
+  rpc GetAllVacationNorm(EmptyResponse) returns (ManyVacationNormsResponse) {
+    option (google.api.http) = {
+      get: "/v1/norms"
+    };
+  }
 
   // Получить норму по его уникальному идентификатору
-  rpc GetVacationNormById(VacationNormId) returns (VacationNormResponse);
+  rpc GetVacationNormById(VacationNormId) returns (VacationNormResponse) {
+    option (google.api.http) = {
+      get: "/v1/norms/{id}"
+    };
+  }
 
   // Добавить новый норму отпуска в базу данных
-  rpc InsertVacationNorm(VacationNorm) returns (VacationNormResponse);
+  rpc InsertVacationNorm(VacationNorm) returns (VacationNormResponse) {
+    option (google.api.http) = {
+      post: "/v1/norms"
+      body: "*"
+    };
+  }
 
   // Обновить данные для нормы отпуска
-  rpc UpdateVacationNorm(UpdateVacNormRequest) returns (VacationNormResponse);
-
+  rpc UpdateVacationNorm(UpdateVacNormRequest) returns (VacationNormResponse) {
+    option (google.api.http) = {
+      put: "/v1/norms/{id}"
+      body: "*"
+    };
+  }
+  
   // Удалить норму отпуск из базы данных
-  rpc DeleteVacationNorm(VacationNormId) returns (EmptyResponse);
+  rpc DeleteVacationNorm(VacationNormId) returns (EmptyResponse) {
+    option (google.api.http) = {
+      delete: "/v1/norms/{id}"
+    };
+  }
 }
 
 // VacationDto
