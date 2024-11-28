@@ -1,28 +1,49 @@
 syntax="proto3";
-//import "google/api/annotations.proto";
-
+import "google/api/annotations.proto";
 package vacation_api.v1;
-
 option go_package = "github.com/Dmitriy-M1319/vacation-api/pkg/vacation_api;vacation_api";
+
 
 
 // Сервисы для моделей данных
 service VacationsService {
 
   // Получить всех работников вместе с отпусками
-  rpc GetAllEmployeers(EmptyResponse) returns (ManyEmployeersResponse);
+  rpc GetAllEmployeers(EmptyResponse) returns (ManyEmployeersResponse) {
+    option (google.api.http) = {
+      get: "/v1/employees"
+    };
+  }
 
   // Получить cотрудника по его номеру
-  rpc GetEmployeeById(EmployeeId) returns (EmployeeResponse);
+  rpc GetEmployeeById(EmployeeId) returns (EmployeeResponse) {
+    option (google.api.http) = {
+      get: "/v1/employees/{id}"
+    };
+  }
 
   // Добавить нового сотрудника в базу данных
-  rpc InsertEmployee(Employee) returns (EmployeeResponse);
+  rpc InsertEmployee(Employee) returns (EmployeeResponse) {
+    option (google.api.http) = {
+      post: "/v1/employees"
+      body: "*"
+    };
+  }
 
   // Обновить данные для сотрудника
-  rpc UpdateEmployee(UpdateEmpRequest) returns (EmployeeResponse);
+  rpc UpdateEmployee(UpdateEmpRequest) returns (EmployeeResponse) {
+    option (google.api.http) = {
+      put: "/v1/employees/{id}"
+      body: "*"
+    };
+  }
 
   // Удалить сотрудника из базы данных
-  rpc DeleteEmployee(EmployeeId) returns (EmptyResponse);
+  rpc DeleteEmployee(EmployeeId) returns (EmptyResponse) {
+    option (google.api.http) = {
+      delete: "/v1/employees/{id}"
+    };
+  }
 
   // Получить список отпусков для определенного работника
   rpc GetVacationsByEmployee(EmployeeId) returns(ManyVacationsResponse);
@@ -95,41 +116,41 @@ message ManyVacationNormsResponse {
 }
 
 message VacationId {
-  uint64 vac_id = 1;
+  uint64 id = 1;
 }
 
 message VacationResponse {
-  optional Vacation vac = 1;
+  Vacation vac = 1;
 }
 
 message EmployeeId {
-  uint64 emp_id = 1;
+  uint64 id = 1;
 }
 
 message EmployeeResponse {
-  optional Employee emp = 1;
+  Employee emp = 1;
 }
 
 message VacationNormId {
-  uint64 norm_id = 1;
+  uint64 id = 1;
 }
 
 message VacationNormResponse {
-  optional VacationNorm norm = 1;
+  VacationNorm norm = 1;
 }
 
 message UpdateEmpRequest {
-  uint64 emp_id = 1;
+  uint64 id = 1;
   Employee emp = 2;
 }
 
 message UpdateVacRequest {
-  uint64 vac_id = 1;
+  uint64 id = 1;
   Vacation vac = 2;
 }
 
 message UpdateVacNormRequest {
-  uint64 norm_id = 1;
+  uint64 id = 1;
   VacationNorm norm = 2;
 }
 
