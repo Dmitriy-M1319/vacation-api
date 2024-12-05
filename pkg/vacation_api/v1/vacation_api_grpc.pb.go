@@ -19,22 +19,26 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	VacationsService_GetAllEmployeers_FullMethodName       = "/vacation_api.v1.VacationsService/GetAllEmployeers"
-	VacationsService_GetEmployeeById_FullMethodName        = "/vacation_api.v1.VacationsService/GetEmployeeById"
-	VacationsService_InsertEmployee_FullMethodName         = "/vacation_api.v1.VacationsService/InsertEmployee"
-	VacationsService_UpdateEmployee_FullMethodName         = "/vacation_api.v1.VacationsService/UpdateEmployee"
-	VacationsService_DeleteEmployee_FullMethodName         = "/vacation_api.v1.VacationsService/DeleteEmployee"
-	VacationsService_GetAllVacations_FullMethodName        = "/vacation_api.v1.VacationsService/GetAllVacations"
-	VacationsService_GetVacationsByEmployee_FullMethodName = "/vacation_api.v1.VacationsService/GetVacationsByEmployee"
-	VacationsService_GetVacationById_FullMethodName        = "/vacation_api.v1.VacationsService/GetVacationById"
-	VacationsService_InsertVacation_FullMethodName         = "/vacation_api.v1.VacationsService/InsertVacation"
-	VacationsService_UpdateVacation_FullMethodName         = "/vacation_api.v1.VacationsService/UpdateVacation"
-	VacationsService_DeleteVacation_FullMethodName         = "/vacation_api.v1.VacationsService/DeleteVacation"
-	VacationsService_GetAllVacationNorms_FullMethodName    = "/vacation_api.v1.VacationsService/GetAllVacationNorms"
-	VacationsService_GetVacationNormById_FullMethodName    = "/vacation_api.v1.VacationsService/GetVacationNormById"
-	VacationsService_InsertVacationNorm_FullMethodName     = "/vacation_api.v1.VacationsService/InsertVacationNorm"
-	VacationsService_UpdateVacationNorm_FullMethodName     = "/vacation_api.v1.VacationsService/UpdateVacationNorm"
-	VacationsService_DeleteVacationNorm_FullMethodName     = "/vacation_api.v1.VacationsService/DeleteVacationNorm"
+	VacationsService_GetAllEmployeers_FullMethodName         = "/vacation_api.v1.VacationsService/GetAllEmployeers"
+	VacationsService_GetEmployeeById_FullMethodName          = "/vacation_api.v1.VacationsService/GetEmployeeById"
+	VacationsService_GetEmployeeByIdFromCache_FullMethodName = "/vacation_api.v1.VacationsService/GetEmployeeByIdFromCache"
+	VacationsService_PutEmployeeInCache_FullMethodName       = "/vacation_api.v1.VacationsService/PutEmployeeInCache"
+	VacationsService_InsertEmployee_FullMethodName           = "/vacation_api.v1.VacationsService/InsertEmployee"
+	VacationsService_UpdateEmployee_FullMethodName           = "/vacation_api.v1.VacationsService/UpdateEmployee"
+	VacationsService_DeleteEmployee_FullMethodName           = "/vacation_api.v1.VacationsService/DeleteEmployee"
+	VacationsService_GetAllVacations_FullMethodName          = "/vacation_api.v1.VacationsService/GetAllVacations"
+	VacationsService_GetVacationByIdFromCache_FullMethodName = "/vacation_api.v1.VacationsService/GetVacationByIdFromCache"
+	VacationsService_PutVacationInCache_FullMethodName       = "/vacation_api.v1.VacationsService/PutVacationInCache"
+	VacationsService_GetVacationsByEmployee_FullMethodName   = "/vacation_api.v1.VacationsService/GetVacationsByEmployee"
+	VacationsService_GetVacationById_FullMethodName          = "/vacation_api.v1.VacationsService/GetVacationById"
+	VacationsService_InsertVacation_FullMethodName           = "/vacation_api.v1.VacationsService/InsertVacation"
+	VacationsService_UpdateVacation_FullMethodName           = "/vacation_api.v1.VacationsService/UpdateVacation"
+	VacationsService_DeleteVacation_FullMethodName           = "/vacation_api.v1.VacationsService/DeleteVacation"
+	VacationsService_GetAllVacationNorms_FullMethodName      = "/vacation_api.v1.VacationsService/GetAllVacationNorms"
+	VacationsService_GetVacationNormById_FullMethodName      = "/vacation_api.v1.VacationsService/GetVacationNormById"
+	VacationsService_InsertVacationNorm_FullMethodName       = "/vacation_api.v1.VacationsService/InsertVacationNorm"
+	VacationsService_UpdateVacationNorm_FullMethodName       = "/vacation_api.v1.VacationsService/UpdateVacationNorm"
+	VacationsService_DeleteVacationNorm_FullMethodName       = "/vacation_api.v1.VacationsService/DeleteVacationNorm"
 )
 
 // VacationsServiceClient is the client API for VacationsService service.
@@ -47,6 +51,10 @@ type VacationsServiceClient interface {
 	GetAllEmployeers(ctx context.Context, in *EmptyResponse, opts ...grpc.CallOption) (*ManyEmployeersResponse, error)
 	// Получить cотрудника по его номеру
 	GetEmployeeById(ctx context.Context, in *EmployeeId, opts ...grpc.CallOption) (*EmployeeResponse, error)
+	// Получить сохраненные данные сотрудника из кэша
+	GetEmployeeByIdFromCache(ctx context.Context, in *EmployeeId, opts ...grpc.CallOption) (*EmployeeResponse, error)
+	// Добавить в кэш данные о сотруднике
+	PutEmployeeInCache(ctx context.Context, in *UpdateEmpRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	// Добавить нового сотрудника в базу данных
 	InsertEmployee(ctx context.Context, in *Employee, opts ...grpc.CallOption) (*EmployeeResponse, error)
 	// Обновить данные для сотрудника
@@ -55,6 +63,10 @@ type VacationsServiceClient interface {
 	DeleteEmployee(ctx context.Context, in *EmployeeId, opts ...grpc.CallOption) (*EmptyResponse, error)
 	// Получить весь список отпусков сотрудников
 	GetAllVacations(ctx context.Context, in *EmptyResponse, opts ...grpc.CallOption) (*ManyVacationsResponse, error)
+	// Получить сохраненные данные отпуска из кэша
+	GetVacationByIdFromCache(ctx context.Context, in *VacationId, opts ...grpc.CallOption) (*VacationResponse, error)
+	// Добавить в кэш данные об отпуске
+	PutVacationInCache(ctx context.Context, in *UpdateVacRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	// Получить список отпусков для определенного работника
 	GetVacationsByEmployee(ctx context.Context, in *EmployeeId, opts ...grpc.CallOption) (*ManyVacationsResponse, error)
 	// Получить отпуск по его уникальному идентификатору
@@ -105,6 +117,26 @@ func (c *vacationsServiceClient) GetEmployeeById(ctx context.Context, in *Employ
 	return out, nil
 }
 
+func (c *vacationsServiceClient) GetEmployeeByIdFromCache(ctx context.Context, in *EmployeeId, opts ...grpc.CallOption) (*EmployeeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EmployeeResponse)
+	err := c.cc.Invoke(ctx, VacationsService_GetEmployeeByIdFromCache_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vacationsServiceClient) PutEmployeeInCache(ctx context.Context, in *UpdateEmpRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EmptyResponse)
+	err := c.cc.Invoke(ctx, VacationsService_PutEmployeeInCache_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *vacationsServiceClient) InsertEmployee(ctx context.Context, in *Employee, opts ...grpc.CallOption) (*EmployeeResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(EmployeeResponse)
@@ -139,6 +171,26 @@ func (c *vacationsServiceClient) GetAllVacations(ctx context.Context, in *EmptyR
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ManyVacationsResponse)
 	err := c.cc.Invoke(ctx, VacationsService_GetAllVacations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vacationsServiceClient) GetVacationByIdFromCache(ctx context.Context, in *VacationId, opts ...grpc.CallOption) (*VacationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VacationResponse)
+	err := c.cc.Invoke(ctx, VacationsService_GetVacationByIdFromCache_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vacationsServiceClient) PutVacationInCache(ctx context.Context, in *UpdateVacRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EmptyResponse)
+	err := c.cc.Invoke(ctx, VacationsService_PutVacationInCache_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -255,6 +307,10 @@ type VacationsServiceServer interface {
 	GetAllEmployeers(context.Context, *EmptyResponse) (*ManyEmployeersResponse, error)
 	// Получить cотрудника по его номеру
 	GetEmployeeById(context.Context, *EmployeeId) (*EmployeeResponse, error)
+	// Получить сохраненные данные сотрудника из кэша
+	GetEmployeeByIdFromCache(context.Context, *EmployeeId) (*EmployeeResponse, error)
+	// Добавить в кэш данные о сотруднике
+	PutEmployeeInCache(context.Context, *UpdateEmpRequest) (*EmptyResponse, error)
 	// Добавить нового сотрудника в базу данных
 	InsertEmployee(context.Context, *Employee) (*EmployeeResponse, error)
 	// Обновить данные для сотрудника
@@ -263,6 +319,10 @@ type VacationsServiceServer interface {
 	DeleteEmployee(context.Context, *EmployeeId) (*EmptyResponse, error)
 	// Получить весь список отпусков сотрудников
 	GetAllVacations(context.Context, *EmptyResponse) (*ManyVacationsResponse, error)
+	// Получить сохраненные данные отпуска из кэша
+	GetVacationByIdFromCache(context.Context, *VacationId) (*VacationResponse, error)
+	// Добавить в кэш данные об отпуске
+	PutVacationInCache(context.Context, *UpdateVacRequest) (*EmptyResponse, error)
 	// Получить список отпусков для определенного работника
 	GetVacationsByEmployee(context.Context, *EmployeeId) (*ManyVacationsResponse, error)
 	// Получить отпуск по его уникальному идентификатору
@@ -299,6 +359,12 @@ func (UnimplementedVacationsServiceServer) GetAllEmployeers(context.Context, *Em
 func (UnimplementedVacationsServiceServer) GetEmployeeById(context.Context, *EmployeeId) (*EmployeeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeeById not implemented")
 }
+func (UnimplementedVacationsServiceServer) GetEmployeeByIdFromCache(context.Context, *EmployeeId) (*EmployeeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeeByIdFromCache not implemented")
+}
+func (UnimplementedVacationsServiceServer) PutEmployeeInCache(context.Context, *UpdateEmpRequest) (*EmptyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutEmployeeInCache not implemented")
+}
 func (UnimplementedVacationsServiceServer) InsertEmployee(context.Context, *Employee) (*EmployeeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InsertEmployee not implemented")
 }
@@ -310,6 +376,12 @@ func (UnimplementedVacationsServiceServer) DeleteEmployee(context.Context, *Empl
 }
 func (UnimplementedVacationsServiceServer) GetAllVacations(context.Context, *EmptyResponse) (*ManyVacationsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllVacations not implemented")
+}
+func (UnimplementedVacationsServiceServer) GetVacationByIdFromCache(context.Context, *VacationId) (*VacationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetVacationByIdFromCache not implemented")
+}
+func (UnimplementedVacationsServiceServer) PutVacationInCache(context.Context, *UpdateVacRequest) (*EmptyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutVacationInCache not implemented")
 }
 func (UnimplementedVacationsServiceServer) GetVacationsByEmployee(context.Context, *EmployeeId) (*ManyVacationsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVacationsByEmployee not implemented")
@@ -398,6 +470,42 @@ func _VacationsService_GetEmployeeById_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VacationsService_GetEmployeeByIdFromCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmployeeId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).GetEmployeeByIdFromCache(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_GetEmployeeByIdFromCache_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).GetEmployeeByIdFromCache(ctx, req.(*EmployeeId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VacationsService_PutEmployeeInCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateEmpRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).PutEmployeeInCache(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_PutEmployeeInCache_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).PutEmployeeInCache(ctx, req.(*UpdateEmpRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _VacationsService_InsertEmployee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Employee)
 	if err := dec(in); err != nil {
@@ -466,6 +574,42 @@ func _VacationsService_GetAllVacations_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VacationsServiceServer).GetAllVacations(ctx, req.(*EmptyResponse))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VacationsService_GetVacationByIdFromCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VacationId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).GetVacationByIdFromCache(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_GetVacationByIdFromCache_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).GetVacationByIdFromCache(ctx, req.(*VacationId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VacationsService_PutVacationInCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVacRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VacationsServiceServer).PutVacationInCache(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VacationsService_PutVacationInCache_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VacationsServiceServer).PutVacationInCache(ctx, req.(*UpdateVacRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -666,6 +810,14 @@ var VacationsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _VacationsService_GetEmployeeById_Handler,
 		},
 		{
+			MethodName: "GetEmployeeByIdFromCache",
+			Handler:    _VacationsService_GetEmployeeByIdFromCache_Handler,
+		},
+		{
+			MethodName: "PutEmployeeInCache",
+			Handler:    _VacationsService_PutEmployeeInCache_Handler,
+		},
+		{
 			MethodName: "InsertEmployee",
 			Handler:    _VacationsService_InsertEmployee_Handler,
 		},
@@ -680,6 +832,14 @@ var VacationsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllVacations",
 			Handler:    _VacationsService_GetAllVacations_Handler,
+		},
+		{
+			MethodName: "GetVacationByIdFromCache",
+			Handler:    _VacationsService_GetVacationByIdFromCache_Handler,
+		},
+		{
+			MethodName: "PutVacationInCache",
+			Handler:    _VacationsService_PutVacationInCache_Handler,
 		},
 		{
 			MethodName: "GetVacationsByEmployee",

@@ -33,6 +33,20 @@ service VacationsService {
     };
   }
 
+  // Получить сохраненные данные сотрудника из кэша
+  rpc GetEmployeeByIdFromCache(EmployeeId) returns (EmployeeResponse) {
+    option (google.api.http) = {
+      get: "/v1/employees/cache/{id}"
+    };
+  }
+
+  // Добавить в кэш данные о сотруднике
+  rpc PutEmployeeInCache(UpdateEmpRequest) returns (EmptyResponse) {
+    option (google.api.http) = {
+      post: "/v1/employees/cache/{id}"
+    };
+  }
+ 
   // Добавить нового сотрудника в базу данных
   rpc InsertEmployee(Employee) returns (EmployeeResponse) {
     option (google.api.http) = {
@@ -60,6 +74,20 @@ service VacationsService {
   rpc GetAllVacations(EmptyResponse) returns (ManyVacationsResponse) {
     option (google.api.http) = {
       get: "/v1/vacations"
+    };
+  }
+
+  // Получить сохраненные данные отпуска из кэша
+  rpc GetVacationByIdFromCache(VacationId) returns (VacationResponse) {
+    option (google.api.http) = {
+      get: "/v1/vacations/cache/{id}"
+    };
+  }
+
+  // Добавить в кэш данные об отпуске
+  rpc PutVacationInCache(UpdateVacRequest) returns (EmptyResponse) {
+    option (google.api.http) = {
+      post: "/v1/vacations/cache/{id}"
     };
   }
 

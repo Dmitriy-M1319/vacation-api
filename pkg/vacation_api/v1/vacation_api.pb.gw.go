@@ -89,6 +89,92 @@ func local_request_VacationsService_GetEmployeeById_0(ctx context.Context, marsh
 	return msg, metadata, err
 }
 
+func request_VacationsService_GetEmployeeByIdFromCache_0(ctx context.Context, marshaler runtime.Marshaler, client VacationsServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq EmployeeId
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Uint64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := client.GetEmployeeByIdFromCache(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_VacationsService_GetEmployeeByIdFromCache_0(ctx context.Context, marshaler runtime.Marshaler, server VacationsServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq EmployeeId
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Uint64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := server.GetEmployeeByIdFromCache(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+var filter_VacationsService_PutEmployeeInCache_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+
+func request_VacationsService_PutEmployeeInCache_0(ctx context.Context, marshaler runtime.Marshaler, client VacationsServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq UpdateEmpRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Uint64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VacationsService_PutEmployeeInCache_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.PutEmployeeInCache(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_VacationsService_PutEmployeeInCache_0(ctx context.Context, marshaler runtime.Marshaler, server VacationsServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq UpdateEmpRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Uint64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VacationsService_PutEmployeeInCache_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.PutEmployeeInCache(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 func request_VacationsService_InsertEmployee_0(ctx context.Context, marshaler runtime.Marshaler, client VacationsServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq Employee
@@ -206,6 +292,92 @@ func local_request_VacationsService_GetAllVacations_0(ctx context.Context, marsh
 		metadata runtime.ServerMetadata
 	)
 	msg, err := server.GetAllVacations(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_VacationsService_GetVacationByIdFromCache_0(ctx context.Context, marshaler runtime.Marshaler, client VacationsServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq VacationId
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Uint64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := client.GetVacationByIdFromCache(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_VacationsService_GetVacationByIdFromCache_0(ctx context.Context, marshaler runtime.Marshaler, server VacationsServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq VacationId
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Uint64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := server.GetVacationByIdFromCache(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+var filter_VacationsService_PutVacationInCache_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+
+func request_VacationsService_PutVacationInCache_0(ctx context.Context, marshaler runtime.Marshaler, client VacationsServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq UpdateVacRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Uint64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VacationsService_PutVacationInCache_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.PutVacationInCache(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_VacationsService_PutVacationInCache_0(ctx context.Context, marshaler runtime.Marshaler, server VacationsServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq UpdateVacRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Uint64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VacationsService_PutVacationInCache_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.PutVacationInCache(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -585,6 +757,46 @@ func RegisterVacationsServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		}
 		forward_VacationsService_GetEmployeeById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_VacationsService_GetEmployeeByIdFromCache_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vacation_api.v1.VacationsService/GetEmployeeByIdFromCache", runtime.WithHTTPPathPattern("/v1/employees/cache/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_VacationsService_GetEmployeeByIdFromCache_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VacationsService_GetEmployeeByIdFromCache_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_VacationsService_PutEmployeeInCache_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vacation_api.v1.VacationsService/PutEmployeeInCache", runtime.WithHTTPPathPattern("/v1/employees/cache/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_VacationsService_PutEmployeeInCache_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VacationsService_PutEmployeeInCache_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_VacationsService_InsertEmployee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -664,6 +876,46 @@ func RegisterVacationsServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 			return
 		}
 		forward_VacationsService_GetAllVacations_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_VacationsService_GetVacationByIdFromCache_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vacation_api.v1.VacationsService/GetVacationByIdFromCache", runtime.WithHTTPPathPattern("/v1/vacations/cache/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_VacationsService_GetVacationByIdFromCache_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VacationsService_GetVacationByIdFromCache_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_VacationsService_PutVacationInCache_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vacation_api.v1.VacationsService/PutVacationInCache", runtime.WithHTTPPathPattern("/v1/vacations/cache/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_VacationsService_PutVacationInCache_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VacationsService_PutVacationInCache_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodGet, pattern_VacationsService_GetVacationsByEmployee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -939,6 +1191,40 @@ func RegisterVacationsServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		}
 		forward_VacationsService_GetEmployeeById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_VacationsService_GetEmployeeByIdFromCache_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vacation_api.v1.VacationsService/GetEmployeeByIdFromCache", runtime.WithHTTPPathPattern("/v1/employees/cache/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_VacationsService_GetEmployeeByIdFromCache_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VacationsService_GetEmployeeByIdFromCache_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_VacationsService_PutEmployeeInCache_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vacation_api.v1.VacationsService/PutEmployeeInCache", runtime.WithHTTPPathPattern("/v1/employees/cache/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_VacationsService_PutEmployeeInCache_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VacationsService_PutEmployeeInCache_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_VacationsService_InsertEmployee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -1006,6 +1292,40 @@ func RegisterVacationsServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 			return
 		}
 		forward_VacationsService_GetAllVacations_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_VacationsService_GetVacationByIdFromCache_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vacation_api.v1.VacationsService/GetVacationByIdFromCache", runtime.WithHTTPPathPattern("/v1/vacations/cache/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_VacationsService_GetVacationByIdFromCache_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VacationsService_GetVacationByIdFromCache_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_VacationsService_PutVacationInCache_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vacation_api.v1.VacationsService/PutVacationInCache", runtime.WithHTTPPathPattern("/v1/vacations/cache/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_VacationsService_PutVacationInCache_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VacationsService_PutVacationInCache_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodGet, pattern_VacationsService_GetVacationsByEmployee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -1181,39 +1501,47 @@ func RegisterVacationsServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 }
 
 var (
-	pattern_VacationsService_GetAllEmployeers_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "employees"}, ""))
-	pattern_VacationsService_GetEmployeeById_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "employees", "id"}, ""))
-	pattern_VacationsService_InsertEmployee_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "employees"}, ""))
-	pattern_VacationsService_UpdateEmployee_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "employees", "id"}, ""))
-	pattern_VacationsService_DeleteEmployee_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "employees", "id"}, ""))
-	pattern_VacationsService_GetAllVacations_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "vacations"}, ""))
-	pattern_VacationsService_GetVacationsByEmployee_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "employees", "id", "vacations"}, ""))
-	pattern_VacationsService_GetVacationById_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "vacations", "id"}, ""))
-	pattern_VacationsService_InsertVacation_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "vacations"}, ""))
-	pattern_VacationsService_UpdateVacation_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "vacations", "id"}, ""))
-	pattern_VacationsService_DeleteVacation_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "vacations", "id"}, ""))
-	pattern_VacationsService_GetAllVacationNorms_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "norms"}, ""))
-	pattern_VacationsService_GetVacationNormById_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "norms", "id"}, ""))
-	pattern_VacationsService_InsertVacationNorm_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "norms"}, ""))
-	pattern_VacationsService_UpdateVacationNorm_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "norms", "id"}, ""))
-	pattern_VacationsService_DeleteVacationNorm_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "norms", "id"}, ""))
+	pattern_VacationsService_GetAllEmployeers_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "employees"}, ""))
+	pattern_VacationsService_GetEmployeeById_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "employees", "id"}, ""))
+	pattern_VacationsService_GetEmployeeByIdFromCache_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "employees", "cache", "id"}, ""))
+	pattern_VacationsService_PutEmployeeInCache_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "employees", "cache", "id"}, ""))
+	pattern_VacationsService_InsertEmployee_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "employees"}, ""))
+	pattern_VacationsService_UpdateEmployee_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "employees", "id"}, ""))
+	pattern_VacationsService_DeleteEmployee_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "employees", "id"}, ""))
+	pattern_VacationsService_GetAllVacations_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "vacations"}, ""))
+	pattern_VacationsService_GetVacationByIdFromCache_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "vacations", "cache", "id"}, ""))
+	pattern_VacationsService_PutVacationInCache_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "vacations", "cache", "id"}, ""))
+	pattern_VacationsService_GetVacationsByEmployee_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "employees", "id", "vacations"}, ""))
+	pattern_VacationsService_GetVacationById_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "vacations", "id"}, ""))
+	pattern_VacationsService_InsertVacation_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "vacations"}, ""))
+	pattern_VacationsService_UpdateVacation_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "vacations", "id"}, ""))
+	pattern_VacationsService_DeleteVacation_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "vacations", "id"}, ""))
+	pattern_VacationsService_GetAllVacationNorms_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "norms"}, ""))
+	pattern_VacationsService_GetVacationNormById_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "norms", "id"}, ""))
+	pattern_VacationsService_InsertVacationNorm_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "norms"}, ""))
+	pattern_VacationsService_UpdateVacationNorm_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "norms", "id"}, ""))
+	pattern_VacationsService_DeleteVacationNorm_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "norms", "id"}, ""))
 )
 
 var (
-	forward_VacationsService_GetAllEmployeers_0       = runtime.ForwardResponseMessage
-	forward_VacationsService_GetEmployeeById_0        = runtime.ForwardResponseMessage
-	forward_VacationsService_InsertEmployee_0         = runtime.ForwardResponseMessage
-	forward_VacationsService_UpdateEmployee_0         = runtime.ForwardResponseMessage
-	forward_VacationsService_DeleteEmployee_0         = runtime.ForwardResponseMessage
-	forward_VacationsService_GetAllVacations_0        = runtime.ForwardResponseMessage
-	forward_VacationsService_GetVacationsByEmployee_0 = runtime.ForwardResponseMessage
-	forward_VacationsService_GetVacationById_0        = runtime.ForwardResponseMessage
-	forward_VacationsService_InsertVacation_0         = runtime.ForwardResponseMessage
-	forward_VacationsService_UpdateVacation_0         = runtime.ForwardResponseMessage
-	forward_VacationsService_DeleteVacation_0         = runtime.ForwardResponseMessage
-	forward_VacationsService_GetAllVacationNorms_0    = runtime.ForwardResponseMessage
-	forward_VacationsService_GetVacationNormById_0    = runtime.ForwardResponseMessage
-	forward_VacationsService_InsertVacationNorm_0     = runtime.ForwardResponseMessage
-	forward_VacationsService_UpdateVacationNorm_0     = runtime.ForwardResponseMessage
-	forward_VacationsService_DeleteVacationNorm_0     = runtime.ForwardResponseMessage
+	forward_VacationsService_GetAllEmployeers_0         = runtime.ForwardResponseMessage
+	forward_VacationsService_GetEmployeeById_0          = runtime.ForwardResponseMessage
+	forward_VacationsService_GetEmployeeByIdFromCache_0 = runtime.ForwardResponseMessage
+	forward_VacationsService_PutEmployeeInCache_0       = runtime.ForwardResponseMessage
+	forward_VacationsService_InsertEmployee_0           = runtime.ForwardResponseMessage
+	forward_VacationsService_UpdateEmployee_0           = runtime.ForwardResponseMessage
+	forward_VacationsService_DeleteEmployee_0           = runtime.ForwardResponseMessage
+	forward_VacationsService_GetAllVacations_0          = runtime.ForwardResponseMessage
+	forward_VacationsService_GetVacationByIdFromCache_0 = runtime.ForwardResponseMessage
+	forward_VacationsService_PutVacationInCache_0       = runtime.ForwardResponseMessage
+	forward_VacationsService_GetVacationsByEmployee_0   = runtime.ForwardResponseMessage
+	forward_VacationsService_GetVacationById_0          = runtime.ForwardResponseMessage
+	forward_VacationsService_InsertVacation_0           = runtime.ForwardResponseMessage
+	forward_VacationsService_UpdateVacation_0           = runtime.ForwardResponseMessage
+	forward_VacationsService_DeleteVacation_0           = runtime.ForwardResponseMessage
+	forward_VacationsService_GetAllVacationNorms_0      = runtime.ForwardResponseMessage
+	forward_VacationsService_GetVacationNormById_0      = runtime.ForwardResponseMessage
+	forward_VacationsService_InsertVacationNorm_0       = runtime.ForwardResponseMessage
+	forward_VacationsService_UpdateVacationNorm_0       = runtime.ForwardResponseMessage
+	forward_VacationsService_DeleteVacationNorm_0       = runtime.ForwardResponseMessage
 )
