@@ -361,6 +361,27 @@
       }
     },
     "/v1/vacations": {
+      "get": {
+        "summary": "Получить весь список отпусков сотрудников",
+        "operationId": "VacationsService_GetAllVacations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ManyVacationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "VacationsService"
+        ]
+      },
       "post": {
         "summary": "Добавить новый отпуск для сотрудника в базу данных",
         "operationId": "VacationsService_InsertVacation",

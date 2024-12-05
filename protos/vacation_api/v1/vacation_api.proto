@@ -56,8 +56,15 @@ service VacationsService {
     };
   }
 
+  // Получить весь список отпусков сотрудников
+  rpc GetAllVacations(EmptyResponse) returns (ManyVacationsResponse) {
+    option (google.api.http) = {
+      get: "/v1/vacations"
+    };
+  }
+
   // Получить список отпусков для определенного работника
-  rpc GetVacationsByEmployee(EmployeeId) returns(ManyVacationsResponse) {
+  rpc GetVacationsByEmployee(EmployeeId) returns (ManyVacationsResponse) {
     option (google.api.http) = {
       get: "/v1/employees/{id}/vacations"
     };

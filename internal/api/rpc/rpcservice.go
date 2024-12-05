@@ -111,6 +111,28 @@ func (sr *RpcService) DeleteEmployee(ctx context.Context, req *pb.EmployeeId) (*
 	}
 }
 
+func (sr *RpcService) GetAllVacations(ctx context.Context, req *pb.EmptyResponse) (*pb.ManyVacationsResponse, error) {
+	emps, err := sr.vacRepo.GetAll()
+
+	if err != nil {
+		return nil, err
+	}
+
+	res := make([]*pb.Vacation, len(emps))
+	for i, e := range emps {
+		var emp = &pb.Vacation{
+			Id:        e.ID,
+			EmpId:     e.EmployeeID,
+			StartDate: e.StartDate,
+			EndDate:   e.EndDate,
+			DaysCount: e.DaysCount,
+		}
+		res[i] = emp
+	}
+
+	return &pb.ManyVacationsResponse{Vacations: res}, nil
+}
+
 func (sr *RpcService) GetVacationsByEmployee(ctx context.Context, req *pb.EmployeeId) (*pb.ManyVacationsResponse, error) {
 	vacations, err := sr.vacRepo.GetByEmployeeId(uint64(req.Id))
 

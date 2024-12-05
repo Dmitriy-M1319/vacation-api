@@ -12,8 +12,9 @@ import (
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository"
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository/interfaces"
 	pb "github.com/Dmitriy-M1319/vacation-api/pkg/vacation_api/v1"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/joho/godotenv"
+	"github.com/rs/cors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -49,8 +50,18 @@ func runGrpcGatewayRest(httpPort, grpcPort string) {
 	if err != nil {
 		panic(err)
 	}
+
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"}, // Разрешить все источники
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(mux)
+
 	log.Printf("server listening at %s", httpPort)
-	if err := http.ListenAndServe(":"+httpPort, mux); err != nil {
+	if err := http.ListenAndServe(":"+httpPort, handler); err != nil {
 		panic(err)
 	}
 }

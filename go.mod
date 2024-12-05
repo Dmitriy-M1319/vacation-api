@@ -26,6 +26,7 @@ require (
 	github.com/golang/protobuf v1.5.4
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.24.0
+	github.com/rs/cors v1.11.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20241118233622-e639e219e697
 )
 
