@@ -12,7 +12,7 @@ import (
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository"
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository/interfaces"
 	pb "github.com/Dmitriy-M1319/vacation-api/pkg/vacation_api/v1"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 	"google.golang.org/grpc"

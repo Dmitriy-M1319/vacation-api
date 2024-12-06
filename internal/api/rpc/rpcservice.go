@@ -3,6 +3,7 @@ package rpc
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/Dmitriy-M1319/vacation-api/internal/models"
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository/interfaces"
@@ -15,16 +16,16 @@ type RpcService struct {
 	vacRepo  interfaces.VacationRepository
 	normRepo interfaces.VacationNormRepository
 
-	employeeCache map[uint64]pb.Employee
-	vacationCache map[uint64]pb.Vacation
+	employeeCache map[uint64]*pb.Employee
+	vacationCache map[uint64]*pb.Vacation
 }
 
 func NewRpcService(eRepo interfaces.EmployeeRepository,
 	vRepo interfaces.VacationRepository,
 	nRepo interfaces.VacationNormRepository) *RpcService {
 	return &RpcService{empRepo: eRepo, vacRepo: vRepo, normRepo: nRepo,
-		employeeCache: make(map[uint64]pb.Employee),
-		vacationCache: make(map[uint64]pb.Vacation),
+		employeeCache: make(map[uint64]*pb.Employee),
+		vacationCache: make(map[uint64]*pb.Vacation),
 	}
 }
 
@@ -68,9 +69,22 @@ func (sr *RpcService) GetEmployeeById(ctx context.Context, req *pb.EmployeeId) (
 func (sr *RpcService) GetEmployeeByIdFromCache(ctx context.Context, req *pb.EmployeeId) (*pb.EmployeeResponse, error) {
 	emp, ok := sr.employeeCache[req.GetId()]
 	if ok {
-		return &pb.EmployeeResponse{Emp: &emp}, nil
+		emp.Id = req.GetId()
+		return &pb.EmployeeResponse{Emp: emp}, nil
 	}
-	return nil, fmt.Errorf("Can not find value with id %d", req.GetId())
+	return nil, fmt.Errorf("can not find value with id %d", req.GetId())
+}
+
+func (sr *RpcService) PutEmployeeInCache(ctx context.Context, req *pb.UpdateEmpRequest) (*pb.EmptyResponse, error) {
+	log.Printf("%v", req.Emp)
+	log.Printf("%v", req.Id)
+	sr.employeeCache[req.Id] = req.Emp
+	return &pb.EmptyResponse{}, nil
+}
+
+func (sr *RpcService) DeleteEmployeeFromCache(ctx context.Context, req *pb.EmployeeId) (*pb.EmptyResponse, error) {
+	delete(sr.employeeCache, req.Id)
+	return &pb.EmptyResponse{}, nil
 }
 
 func (sr *RpcService) InsertEmployee(ctx context.Context, res *pb.Employee) (*pb.EmployeeResponse, error) {
@@ -173,6 +187,24 @@ func (sr *RpcService) GetVacationById(ctx context.Context, req *pb.VacationId) (
 	res := &pb.Vacation{Id: v.ID, EmpId: v.EmployeeID, StartDate: v.StartDate, EndDate: v.EndDate, DaysCount: v.DaysCount}
 
 	return &pb.VacationResponse{Vac: res}, nil
+}
+
+func (sr *RpcService) GetVacationByIdFromCache(ctx context.Context, req *pb.VacationId) (*pb.VacationResponse, error) {
+	vac, ok := sr.vacationCache[req.GetId()]
+	if ok {
+		return &pb.VacationResponse{Vac: vac}, nil
+	}
+	return nil, fmt.Errorf("can not find value with id %d", req.GetId())
+}
+
+func (sr *RpcService) PutVacationInCache(ctx context.Context, req *pb.UpdateVacRequest) (*pb.EmptyResponse, error) {
+	sr.vacationCache[req.Id] = req.Vac
+	return &pb.EmptyResponse{}, nil
+}
+
+func (sr *RpcService) DeleteVacationFromCache(ctx context.Context, req *pb.VacationId) (*pb.EmptyResponse, error) {
+	delete(sr.vacationCache, req.Id)
+	return &pb.EmptyResponse{}, nil
 }
 
 func (sr *RpcService) InsertVacation(ctx context.Context, req *pb.Vacation) (*pb.VacationResponse, error) {

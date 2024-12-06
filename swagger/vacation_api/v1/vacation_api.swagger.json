@@ -105,6 +105,36 @@
           "VacationsService"
         ]
       },
+      "delete": {
+        "summary": "Удалить данные сотрудника из кэша",
+        "operationId": "VacationsService_DeleteEmployeeFromCache",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmptyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      },
       "post": {
         "summary": "Добавить в кэш данные о сотруднике",
         "operationId": "VacationsService_PutEmployeeInCache",
@@ -131,29 +161,12 @@
             "format": "uint64"
           },
           {
-            "name": "emp.id",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "uint64"
-          },
-          {
-            "name": "emp.firstName",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "emp.lastName",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "emp.patronymic",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VacationsServicePutEmployeeInCacheBody"
+            }
           }
         ],
         "tags": [
@@ -532,6 +545,36 @@
           "VacationsService"
         ]
       },
+      "delete": {
+        "summary": "Удалить данные отпуска из кэша",
+        "operationId": "VacationsService_DeleteVacationFromCache",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmptyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VacationsService"
+        ]
+      },
       "post": {
         "summary": "Добавить в кэш данные об отпуске",
         "operationId": "VacationsService_PutVacationInCache",
@@ -698,6 +741,14 @@
     }
   },
   "definitions": {
+    "VacationsServicePutEmployeeInCacheBody": {
+      "type": "object",
+      "properties": {
+        "emp": {
+          "$ref": "#/definitions/v1Employee"
+        }
+      }
+    },
     "VacationsServiceUpdateEmployeeBody": {
       "type": "object",
       "properties": {

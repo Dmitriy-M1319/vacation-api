@@ -44,6 +44,14 @@ service VacationsService {
   rpc PutEmployeeInCache(UpdateEmpRequest) returns (EmptyResponse) {
     option (google.api.http) = {
       post: "/v1/employees/cache/{id}"
+      body: "*"
+    };
+  }
+
+  // Удалить данные сотрудника из кэша
+  rpc DeleteEmployeeFromCache(EmployeeId) returns (EmptyResponse) {
+    option (google.api.http) = {
+      delete: "/v1/employees/cache/{id}"
     };
   }
  
@@ -88,6 +96,13 @@ service VacationsService {
   rpc PutVacationInCache(UpdateVacRequest) returns (EmptyResponse) {
     option (google.api.http) = {
       post: "/v1/vacations/cache/{id}"
+    };
+  }
+
+   // Удалить данные отпуска из кэша
+   rpc DeleteVacationFromCache(VacationId) returns (EmptyResponse) {
+    option (google.api.http) = {
+      delete: "/v1/vacations/cache/{id}"
     };
   }
 
