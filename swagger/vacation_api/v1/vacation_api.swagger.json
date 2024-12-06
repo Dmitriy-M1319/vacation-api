@@ -601,37 +601,12 @@
             "format": "uint64"
           },
           {
-            "name": "vac.id",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "uint64"
-          },
-          {
-            "name": "vac.empId",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "uint64"
-          },
-          {
-            "name": "vac.startDate",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "vac.endDate",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "vac.daysCount",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "uint64"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VacationsServicePutVacationInCacheBody"
+            }
           }
         ],
         "tags": [
@@ -746,6 +721,14 @@
       "properties": {
         "emp": {
           "$ref": "#/definitions/v1Employee"
+        }
+      }
+    },
+    "VacationsServicePutVacationInCacheBody": {
+      "type": "object",
+      "properties": {
+        "vac": {
+          "$ref": "#/definitions/v1Vacation"
         }
       }
     },

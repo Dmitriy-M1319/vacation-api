@@ -96,6 +96,7 @@ service VacationsService {
   rpc PutVacationInCache(UpdateVacRequest) returns (EmptyResponse) {
     option (google.api.http) = {
       post: "/v1/vacations/cache/{id}"
+      body: "*"
     };
   }
 

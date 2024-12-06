@@ -3,7 +3,6 @@ package rpc
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/Dmitriy-M1319/vacation-api/internal/models"
 	"github.com/Dmitriy-M1319/vacation-api/internal/repository/interfaces"
@@ -76,8 +75,6 @@ func (sr *RpcService) GetEmployeeByIdFromCache(ctx context.Context, req *pb.Empl
 }
 
 func (sr *RpcService) PutEmployeeInCache(ctx context.Context, req *pb.UpdateEmpRequest) (*pb.EmptyResponse, error) {
-	log.Printf("%v", req.Emp)
-	log.Printf("%v", req.Id)
 	sr.employeeCache[req.Id] = req.Emp
 	return &pb.EmptyResponse{}, nil
 }
@@ -192,6 +189,7 @@ func (sr *RpcService) GetVacationById(ctx context.Context, req *pb.VacationId) (
 func (sr *RpcService) GetVacationByIdFromCache(ctx context.Context, req *pb.VacationId) (*pb.VacationResponse, error) {
 	vac, ok := sr.vacationCache[req.GetId()]
 	if ok {
+		vac.Id = req.GetId()
 		return &pb.VacationResponse{Vac: vac}, nil
 	}
 	return nil, fmt.Errorf("can not find value with id %d", req.GetId())
